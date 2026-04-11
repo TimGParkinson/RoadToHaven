@@ -259,5 +259,281 @@
         }
       }
     ]
-  }
+  },
+  {
+  "id": "abandoned_clinic",
+  "title": "Abandoned Clinic",
+  "weight": 2,
+  "text": "A faded red cross hangs above a shattered doorway. Inside, overturned beds and scattered supplies. It smells sterile… and wrong.",
+  "art": "  [+]  \n |   | \n |___| \n  | |  ",
+  "choices": [
+    {
+      "id": "search_meds",
+      "label": "Search for medicine",
+      "requires": null,
+      "outcome": {
+        "text": "You find a sealed cabinet. Some of it is still usable.",
+        "changes": { "medicine": 20, "morale": 5 }
+      }
+    },
+    {
+      "id": "quick_grab",
+      "label": "Grab what you can and leave",
+      "requires": null,
+      "outcome": {
+        "text": "You grab supplies quickly. Something crashes deeper inside. You don't stay to find out what.",
+        "changes": { "medicine": 10, "morale": -5 }
+      }
+    },
+    {
+      "id": "leave",
+      "label": "Too dangerous — leave",
+      "requires": null,
+      "outcome": {
+        "text": "You step back outside. Some places aren’t worth the risk.",
+        "changes": {}
+      }
+    }
+  ]
+},
+{
+  "id": "blocked_highway",
+  "title": "Blocked Highway",
+  "weight": 3,
+  "text": "Cars are piled across the highway ahead. A choke point. Too clean. Too quiet.",
+  "art": " |||||\n[====]\n |||||",
+  "choices": [
+    {
+      "id": "clear_path",
+      "label": "Clear a path",
+      "requires": { "scrap": 5 },
+      "outcome": {
+        "text": "You move enough wreckage to squeeze through.",
+        "changes": { "scrap": -5, "fuel": -3 }
+      }
+    },
+    {
+      "id": "detour",
+      "label": "Take a side road",
+      "requires": { "fuel": 8 },
+      "outcome": {
+        "text": "You avoid the choke point entirely.",
+        "changes": { "fuel": -8 }
+      }
+    },
+    {
+      "id": "push_through",
+      "label": "Force your way through",
+      "requires": null,
+      "outcome": {
+        "text": "Metal screams as you push through. Something breaks.",
+        "changes": { "fuel": -5, "morale": -10 }
+      }
+    }
+  ]
+},
+{
+  "id": "radio_signal",
+  "title": "Static Signal",
+  "weight": 2,
+  "text": "The radio crackles to life. A voice repeats coordinates before dissolving into static.",
+  "art": " ~~~ \n( o )\n ~~~ ",
+  "choices": [
+    {
+      "id": "follow_signal",
+      "label": "Follow the signal",
+      "requires": { "fuel": 10 },
+      "outcome": {
+        "text": "You find a hidden cache buried near the coordinates.",
+        "changes": { "fuel": -10, "scrap": 15, "food": 10 }
+      }
+    },
+    {
+      "id": "ignore",
+      "label": "Ignore it",
+      "requires": null,
+      "outcome": {
+        "text": "Probably a trap.",
+        "changes": {}
+      }
+    }
+  ]
+},
+{
+  "id": "engine_trouble",
+  "title": "Engine Trouble",
+  "weight": 3,
+  "text": "The engine coughs, sputters, and loses power. You coast to a stop.",
+  "art": "  ____\n /__|_\n|_o_o|",
+  "choices": [
+    {
+      "id": "repair",
+      "label": "Fix it with scrap",
+      "requires": { "scrap": 10 },
+      "outcome": {
+        "text": "You patch it together. It’ll hold.",
+        "changes": { "scrap": -10, "morale": 5 }
+      }
+    },
+    {
+      "id": "force_drive",
+      "label": "Force it to run",
+      "requires": null,
+      "outcome": {
+        "text": "It works… but barely.",
+        "changes": { "fuel": -8, "morale": -10 }
+      }
+    }
+  ]
+},
+{
+  "id": "overgrown_farm",
+  "title": "Overgrown Farm",
+  "weight": 2,
+  "text": "Fields stretch out, wild but still growing. Something edible might still be here.",
+  "art": "  |||\n {|||}\n  |||",
+  "choices": [
+    {
+      "id": "harvest",
+      "label": "Harvest crops",
+      "requires": null,
+      "outcome": {
+        "text": "You gather what you can.",
+        "changes": { "food": 20 }
+      }
+    },
+    {
+      "id": "search_house",
+      "label": "Search farmhouse",
+      "requires": null,
+      "outcome": {
+        "text": "You find tools and supplies.",
+        "changes": { "scrap": 10 }
+      }
+    }
+  ]
+},
+{
+  "id": "burning_wreck",
+  "title": "Burning Wreck",
+  "weight": 2,
+  "text": "A vehicle burns on the roadside, flames licking the sky. Something might still be salvageable.",
+  "art": " (   )\n(🔥🔥)\n (___)",
+  "choices": [
+    {
+      "id": "salvage",
+      "label": "Salvage quickly",
+      "requires": null,
+      "outcome": {
+        "text": "You grab what you can before the heat forces you back.",
+        "changes": { "scrap": 12, "morale": -5 }
+      }
+    },
+    {
+      "id": "leave",
+      "label": "Too dangerous",
+      "requires": null,
+      "outcome": { "text": "You move on.", "changes": {} }
+    }
+  ]
+},
+{
+  "id": "sinkhole",
+  "title": "Sinkhole",
+  "weight": 2,
+  "text": "The road ahead collapses into a deep pit.",
+  "art": "  ____\n /    \\\n|      |",
+  "choices": [
+    {
+      "id": "detour",
+      "label": "Go around",
+      "requires": { "fuel": 6 },
+      "outcome": {
+        "text": "You carefully navigate around it.",
+        "changes": { "fuel": -6 }
+      }
+    },
+    {
+      "id": "jump",
+      "label": "Try to jump it",
+      "requires": null,
+      "outcome": {
+        "text": "You make it… barely.",
+        "changes": { "morale": -15 }
+      }
+    }
+  ]
+},
+{
+  "id": "ration_dispute",
+  "title": "Ration Dispute",
+  "weight": 2,
+  "text": "Tensions rise over dwindling food. Voices get louder.",
+  "art": " (><)\n /||\\\n /  \\",
+  "choices": [
+    {
+      "id": "calm",
+      "label": "Calm everyone down",
+      "requires": null,
+      "outcome": {
+        "text": "You manage to settle things.",
+        "changes": { "morale": 10 }
+      }
+    },
+    {
+      "id": "reduce_food",
+      "label": "Cut rations",
+      "requires": null,
+      "outcome": {
+        "text": "Food lasts longer, but morale suffers.",
+        "changes": { "food": 5, "morale": -15 }
+      }
+    }
+  ]
+},
+{
+  "id": "water_cache",
+  "title": "Hidden Cache",
+  "weight": 2,
+  "text": "You uncover a hidden stash buried beneath rubble.",
+  "art": " [__]\n |  |\n |__|",
+  "choices": [
+    {
+      "id": "take_all",
+      "label": "Take everything",
+      "requires": null,
+      "outcome": {
+        "text": "A lucky find.",
+        "changes": { "food": 15, "medicine": 5 }
+      }
+    }
+  ]
+},
+{
+  "id": "old_grave",
+  "title": "Lonely Grave",
+  "weight": 1,
+  "text": "A small grave marked with stones. Someone cared enough to bury them.",
+  "art": "  +\n /_\\\n  |",
+  "choices": [
+    {
+      "id": "respect",
+      "label": "Pay respects",
+      "requires": null,
+      "outcome": {
+        "text": "The group grows quiet. It matters.",
+        "changes": { "morale": 15 }
+      }
+    },
+    {
+      "id": "dig",
+      "label": "Search the grave",
+      "requires": null,
+      "outcome": {
+        "text": "You find something useful… but at a cost.",
+        "changes": { "scrap": 8, "morale": -25 }
+      }
+    }
+  ]
+}
 ]

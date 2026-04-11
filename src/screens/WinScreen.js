@@ -25,8 +25,8 @@ export default function WinScreen({ navigation }) {
   const game   = useGame();
   const rating = getPerformanceRating(game);
 
-  function handlePlayAgain() {
-    game.resetGame();
+  async function handlePlayAgain() {
+    await game.resetGame();
     navigation.replace('MainMenu');
   }
 

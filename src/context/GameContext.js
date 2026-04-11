@@ -7,10 +7,10 @@ import { saveGame, loadGame, deleteSave } from '../systems/saveSystem';
 export const INITIAL_STATE = {
   day:        1,
   distance:   0,
-  food:       50,
-  fuel:       40,
-  medicine:   20,
-  scrap:      10,
+  food:       350,
+  fuel:       200,
+  medicine:   30,
+  scrap:      15,
   morale:     75,
   hasRevived: false, // true once the player uses the revive ad — locked for the run
 };
@@ -120,7 +120,11 @@ export function GameProvider({ children }) {
   function markRevived()             { dispatch({ type: ACTIONS.MARK_REVIVED }); }
 
   async function resetGame() {
-    await deleteSave();
+    try {
+      await deleteSave();
+    } catch {
+      // key may not exist — safe to ignore
+    }
     dispatch({ type: ACTIONS.RESET });
   }
 

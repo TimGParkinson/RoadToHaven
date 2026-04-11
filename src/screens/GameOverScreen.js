@@ -73,8 +73,8 @@ export default function GameOverScreen({ navigation, route }) {
     return 'REVIVE WITH AD — WATCH TO CONTINUE';
   }
 
-  function handleRestart() {
-    game.resetGame();
+  async function handleRestart() {
+    await game.resetGame();
     navigation.replace('MainMenu');
   }
 
