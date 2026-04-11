@@ -1,0 +1,263 @@
+[
+  {
+    "id": "road_ambush",
+    "title": "Road Ambush",
+    "weight": 3,
+    "text": "Two masked figures step from behind a burnt-out car, weapons raised. One drags a length of chain across the asphalt. \"Supplies. Now.\"",
+    "art": "  (X)   (X)  \n  _|_   _|_  \n  | |   | |  \n __|_____|__ ",
+    "choices": [
+      {
+        "id": "fight",
+        "label": "Fight them off",
+        "requires": null,
+        "outcome": {
+          "text": "You drive them back after a brutal struggle. They scatter into the ruins, leaving behind a few scraps.",
+          "changes": { "food": -10, "morale": -15, "scrap": 5 }
+        }
+      },
+      {
+        "id": "pay",
+        "label": "Give them food",
+        "requires": { "food": 15 },
+        "outcome": {
+          "text": "You toss a bag onto the road. They take it and let you pass without another word.",
+          "changes": { "food": -15, "morale": 5 }
+        }
+      },
+      {
+        "id": "sneak",
+        "label": "Back up and find a detour",
+        "requires": { "fuel": 10 },
+        "outcome": {
+          "text": "You reverse quietly and take a side road. It costs time and fuel, but nobody gets hurt.",
+          "changes": { "fuel": -10, "morale": -5 }
+        }
+      }
+    ]
+  },
+  {
+    "id": "derelict_station",
+    "title": "Derelict Gas Station",
+    "weight": 2,
+    "text": "A crumbling station sits off the highway, windows long shattered. The pumps are dead — but the underground tanks might still hold something.",
+    "art": "+----------+\n| F U E L  |\n|  [|||]   |\n+----||----+\n     ||     ",
+    "choices": [
+      {
+        "id": "dig_tanks",
+        "label": "Dig down to the reserve tanks",
+        "requires": { "scrap": 5 },
+        "outcome": {
+          "text": "Using a makeshift tool, you crack open a buried tank. Crude fuel, but it'll burn.",
+          "changes": { "fuel": 25, "scrap": -5, "morale": 10 }
+        }
+      },
+      {
+        "id": "quick_search",
+        "label": "Quick search of the building",
+        "requires": null,
+        "outcome": {
+          "text": "You find a rusted jerry can with a few litres sloshing around at the bottom. Better than nothing.",
+          "changes": { "fuel": 10, "food": 5 }
+        }
+      },
+      {
+        "id": "skip",
+        "label": "Too risky — keep moving",
+        "requires": null,
+        "outcome": {
+          "text": "You roll past without stopping. The station disappears in the rear-view mirror.",
+          "changes": {}
+        }
+      }
+    ]
+  },
+  {
+    "id": "roadside_stranger",
+    "title": "Roadside Stranger",
+    "weight": 2,
+    "text": "A figure is slumped against a cracked mile marker, barely conscious. Their lips are cracked from thirst. They look up at you with hollow eyes and say nothing.",
+    "art": "   ___   \n  (. .)  \n   )|(   \n  /   \\  \n _|___|_ ",
+    "choices": [
+      {
+        "id": "use_medicine",
+        "label": "Treat their wounds",
+        "requires": { "medicine": 10 },
+        "outcome": {
+          "text": "You patch them up. They grip your hand before you leave — grateful, speechless. The group feels the weight of that moment.",
+          "changes": { "medicine": -10, "morale": 20 }
+        }
+      },
+      {
+        "id": "share_food",
+        "label": "Leave some food and water",
+        "requires": { "food": 10 },
+        "outcome": {
+          "text": "You press a small parcel into their hands. It won't save them. But it might buy them another day.",
+          "changes": { "food": -10, "morale": 10 }
+        }
+      },
+      {
+        "id": "leave",
+        "label": "You can't save everyone — keep going",
+        "requires": null,
+        "outcome": {
+          "text": "You drive away. Nobody says anything for a long time. The silence is heavy.",
+          "changes": { "morale": -20 }
+        }
+      }
+    ]
+  },
+  {
+    "id": "rad_storm",
+    "title": "Radiation Warning",
+    "weight": 2,
+    "text": "The geiger counter screams. A bruised, glowing cloud mass rolls in from the east — fast. You have maybe three minutes before it's on top of you.",
+    "art": " * . * . * \n  (STORM)  \n * . * . * \n  ~~~~~~~  ",
+    "choices": [
+      {
+        "id": "shelter_building",
+        "label": "Shelter in a nearby structure",
+        "requires": null,
+        "outcome": {
+          "text": "You wait it out in a basement, rationing food while the storm passes overhead. Hours later, the counter quiets.",
+          "changes": { "food": -12, "morale": 5 }
+        }
+      },
+      {
+        "id": "build_cover",
+        "label": "Rig a radiation shield from scrap",
+        "requires": { "scrap": 8 },
+        "outcome": {
+          "text": "You bolt sheet metal to the roof and windows. It holds. The group is shaken but unharmed.",
+          "changes": { "scrap": -8, "morale": 10, "food": -5 }
+        }
+      },
+      {
+        "id": "push_through",
+        "label": "Floor it and drive through",
+        "requires": { "fuel": 12 },
+        "outcome": {
+          "text": "You blast through the edge of the storm at full speed. Everyone is nauseous and frightened. But you're through.",
+          "changes": { "fuel": -12, "morale": -20, "medicine": -5 }
+        }
+      }
+    ]
+  },
+  {
+    "id": "wandering_trader",
+    "title": "Wandering Trader",
+    "weight": 2,
+    "text": "A cart appears on the horizon, pulled slowly by an old man in a heavy coat and cracked gas mask. He raises a hand — the wasteland gesture for \"not hostile.\"",
+    "art": "  (o)      \n  /|\\  [__]\n  / \\  |  |\n      [____]",
+    "choices": [
+      {
+        "id": "food_for_fuel",
+        "label": "Trade food for fuel",
+        "requires": { "food": 20 },
+        "outcome": {
+          "text": "He eyes your food stores carefully, nods, and rolls two fuel drums off his cart. A fair trade by wasteland standards.",
+          "changes": { "food": -20, "fuel": 28 }
+        }
+      },
+      {
+        "id": "scrap_for_food",
+        "label": "Trade scrap for food",
+        "requires": { "scrap": 8 },
+        "outcome": {
+          "text": "He sorts through your scrap pile, picks what he wants, and loads you up with dried provisions. Nobody goes hungry tonight.",
+          "changes": { "scrap": -8, "food": 22 }
+        }
+      },
+      {
+        "id": "scrap_for_medicine",
+        "label": "Trade scrap for medicine",
+        "requires": { "scrap": 10 },
+        "outcome": {
+          "text": "He produces a battered medkit from under the cart. Expired labels, but the contents look intact.",
+          "changes": { "scrap": -10, "medicine": 18 }
+        }
+      },
+      {
+        "id": "ignore",
+        "label": "Wave him off and keep moving",
+        "requires": null,
+        "outcome": {
+          "text": "You roll past with a nod. He watches you go without a word.",
+          "changes": {}
+        }
+      }
+    ]
+  },
+  {
+    "id": "collapsed_bridge",
+    "title": "Collapsed Bridge",
+    "weight": 1,
+    "text": "The bridge ahead has buckled — a section of road hangs over the river below, twisted rebar exposed. The fast route is gone.",
+    "art": "====    ====\n  |      |  \n  |      |  \n~~~~~~~~~~~~~",
+    "choices": [
+      {
+        "id": "long_detour",
+        "label": "Take the long detour around",
+        "requires": { "fuel": 18 },
+        "outcome": {
+          "text": "Forty miles out of the way on cracked back roads. The tank dips badly, but you make it across.",
+          "changes": { "fuel": -18, "morale": -5 }
+        }
+      },
+      {
+        "id": "repair_bridge",
+        "label": "Reinforce it with scrap and cross",
+        "requires": { "scrap": 12 },
+        "outcome": {
+          "text": "Two hours of work. The repair won't last — but it holds long enough for you to cross.",
+          "changes": { "scrap": -12, "fuel": -4, "morale": 10 }
+        }
+      },
+      {
+        "id": "cross_risk",
+        "label": "Cross the damaged section carefully",
+        "requires": null,
+        "outcome": {
+          "text": "Every second feels like the last. The structure groans beneath you. It holds — barely. Nobody breathes until you reach the other side.",
+          "changes": { "morale": -25, "fuel": -5 }
+        }
+      }
+    ]
+  },
+  {
+    "id": "feral_pack",
+    "title": "Feral Pack",
+    "weight": 3,
+    "text": "A pack of mutated dogs circles the vehicle in the dark, growling low. Their eyes catch the headlights. They smell the food. They are not afraid of you.",
+    "art": "  / ^ \\  \n ( o o ) \n  > W <  \n  |   |  ",
+    "choices": [
+      {
+        "id": "fight",
+        "label": "Fight them off",
+        "requires": null,
+        "outcome": {
+          "text": "It's loud and ugly. You drive them back, but not without cost. One of them got to the supply bag before you could stop it.",
+          "changes": { "food": -15, "morale": -10, "scrap": 4 }
+        }
+      },
+      {
+        "id": "scare_fire",
+        "label": "Burn some food to make a fire",
+        "requires": { "food": 8 },
+        "outcome": {
+          "text": "The flames send them scrambling into the dark, yapping. Old instincts die hard, even in mutants.",
+          "changes": { "food": -8, "morale": 5 }
+        }
+      },
+      {
+        "id": "floor_it",
+        "label": "Gun the engine and drive through them",
+        "requires": { "fuel": 8 },
+        "outcome": {
+          "text": "You hit the accelerator and scatter them. A few thuds against the chassis. You don't look back.",
+          "changes": { "fuel": -8, "morale": -10 }
+        }
+      }
+    ]
+  }
+]
