@@ -66,8 +66,12 @@ function formatCooldown(ms) {
 export default function TravelScreen({ navigation }) {
   const game = useGame();
 
-  const [log,   setLog]   = useState('> SYSTEMS NOMINAL. AWAITING ORDERS.');
-  const [delta, setDelta] = useState('');
+  const [log,              setLog]              = useState('> SYSTEMS NOMINAL. AWAITING ORDERS.');
+  const [delta,            setDelta]            = useState('');
+  const [scavengeStreak,   setScavengeStreak]   = useState(0);
+
+  const MAX_SCAVENGE_STREAK = 2;
+  const scavengeLocked = scavengeStreak >= MAX_SCAVENGE_STREAK;
 
   // Ad cooldowns — timestamps (ms) when each cooldown expires
   const [fuelCooldownUntil, setFuelCooldownUntil] = useState(0);
@@ -157,6 +161,7 @@ export default function TravelScreen({ navigation }) {
 
     game.applyChanges(result.changes);
     game.advanceDay();
+    setScavengeStreak(0);
 
     setLog(`> Traveled ${result.miles} mi.${result.warnings.length ? '  ! ' + result.warnings[0] : ''}`);
     setDelta(deltaLabel(result.changes));
@@ -184,6 +189,7 @@ export default function TravelScreen({ navigation }) {
 
     game.applyChanges(allChanges);
     game.advanceDay();
+    setScavengeStreak(s => s + 1);
 
     setLog(`> ${find.log}`);
     setDelta(deltaLabel(allChanges));
@@ -269,7 +275,10 @@ export default function TravelScreen({ navigation }) {
       {/* ── Main actions ────────────────────── */}
       <View style={screen.actions}>
         <Button label="Travel"   onPress={handleTravel}   variant={travelBlocked ? 'dim' : 'primary'} disabled={travelBlocked} />
-        <Button label="Scavenge" onPress={handleScavenge} variant="secondary" disabled={game.food <= 0} />
+        <Button label="Scavenge" onPress={handleScavenge} variant={scavengeLocked ? 'dim' : 'secondary'} disabled={scavengeLocked || game.food <= 0} />
+        {scavengeLocked && (
+          <Text style={screen.scavengeLockText}>! AREA PICKED CLEAN — TRAVEL TO A NEW LOCATION</Text>
+        )}
         <Button label="Rest"     onPress={handleRest}     variant="secondary" />
       </View>
 
@@ -356,6 +365,7 @@ const screen = StyleSheet.create({
   warningText: { fontFamily: MONO, fontSize: 11, color: colors.warning, letterSpacing: 1 },
 
   actions: { marginTop: 8 },
+  scavengeLockText: { fontFamily: MONO, fontSize: 10, color: colors.warning, letterSpacing: 1, marginTop: -6, marginBottom: 6, paddingLeft: 4 },
 
   adSection: { marginTop: 20 },
   adMeta: {
