@@ -30,8 +30,15 @@ export default function MainMenuScreen({ navigation }) {
     navigation.navigate('Travel');
   }
 
-  function handleNewGame() {
-    game.resetGame();
+  async function handleNewGame() {
+    // Only reset when there is something to clear — mid-run save, dead state,
+    // or won state. If we just arrived from GameOver/Win (which already awaited
+    // resetGame), the state is already INITIAL_STATE and a second reset would
+    // hang on the redundant async call.
+    const needsReset = game.day > 1 || game.isDead || game.hasWon;
+    if (needsReset) {
+      await game.resetGame();
+    }
     navigation.navigate('Travel');
   }
 

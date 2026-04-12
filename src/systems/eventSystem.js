@@ -1,5 +1,6 @@
 import EVENTS from '../data/events.json';
 
+let recentEvents = [];
 // ─────────────────────────────────────────────
 // getRandomEvent
 // ─────────────────────────────────────────────
@@ -15,11 +16,16 @@ import EVENTS from '../data/events.json';
  * const event = getRandomEvent(['road_ambush', 'feral_pack']); // won't repeat these
  */
 export function getRandomEvent(excludeIds = []) {
+  // Combine external excludes + recent history
+  const combinedExcludes = [...excludeIds, ...recentEvents];
   // Filter out recently-seen events
-  let pool = EVENTS.filter(e => !excludeIds.includes(e.id));
+  let pool = EVENTS.filter(e => !combinedExcludes.includes(e.id));
 
   // If every event has been excluded, reset the pool
-  if (pool.length === 0) pool = [...EVENTS];
+  if (pool.length === 0) {
+    recentEvents = [];
+    pool = EVENTS.filter(e => !excludeIds.includes(e.id));
+  }
 
   // Weighted random selection
   // e.g. weights [3, 2, 1] → totals 6; roll 0–5.99; pick by cumulative range
@@ -28,7 +34,16 @@ export function getRandomEvent(excludeIds = []) {
 
   for (const event of pool) {
     roll -= event.weight ?? 1;
-    if (roll <= 0) return event;
+    if (roll <= 0) {
+      // Track recent events
+      recentEvents.push(event.id);
+
+      if (recentEvents.length > 5) {
+        recentEvents.shift(); // keep last 5
+      }
+
+      return event;
+    }
   }
 
   // Fallback — should never reach here

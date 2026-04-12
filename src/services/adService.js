@@ -11,6 +11,8 @@ import {
 // AD UNIT IDs
 // TestIds.REWARDED is always used in __DEV__.
 // Replace the production strings before release.
+// In Expo Go, Metro redirects this import to a stub
+// (see metro.config.js) so no native code is called.
 // ─────────────────────────────────────────────
 const REWARDED_ID = Platform.select({
   android: __DEV__
@@ -35,9 +37,6 @@ export async function initialiseMobileAds() {
 
 // ─────────────────────────────────────────────
 // REWARD CONFIGS
-// Changes are applied to GameContext via
-// applyChanges() only after the reward is earned.
-// Ads are never auto-shown — always player-initiated.
 // ─────────────────────────────────────────────
 export const REWARD_CONFIGS = {
   fuel: {
@@ -60,21 +59,11 @@ export const REWARD_CONFIGS = {
 /**
  * Manages one rewarded ad slot: load → ready → show → reward/dismiss.
  *
- * Ads are strictly opt-in:
- *   • The ad only shows when the player explicitly calls showAd()
- *   • onRewarded fires only if the player watched to completion
- *   • Closing without finishing yields no reward — no penalty applied
+ * In Expo Go the import resolves to a stub, so ads never become
+ * ready and all ad UI stays hidden/disabled without error.
  *
  * @param {'fuel'|'food'|'revive'} rewardType
  * @param {function} onRewarded  called with the reward config on completion
- *
- * @returns {{
- *   status:      'idle'|'loading'|'ready'|'showing'|'error',
- *   showAd:      function,
- *   isReady:     boolean,
- *   isUnavailable: boolean,   // true when ad failed to load and retry is pending
- *   config:      object,
- * }}
  */
 export function useRewardedAd(rewardType, onRewarded) {
   const [status, setStatus]  = useState('idle');
@@ -83,8 +72,6 @@ export function useRewardedAd(rewardType, onRewarded) {
   const rewardEarnedRef      = useRef(false);
   const isMountedRef         = useRef(true);
 
-  // Always call the latest version of onRewarded — avoids stale closure bug
-  // when the callback is re-created on every parent render.
   const onRewardedRef = useRef(onRewarded);
   useEffect(() => { onRewardedRef.current = onRewarded; });
 
@@ -120,13 +107,9 @@ export function useRewardedAd(rewardType, onRewarded) {
         if (!isMountedRef.current) return;
         setStatus('idle');
         removeListeners();
-
-        // Reward is only granted if the player watched to completion
         if (rewardEarnedRef.current) {
           onRewardedRef.current(REWARD_CONFIGS[rewardType]);
         }
-
-        // Pre-load the next ad silently so the button is ready quickly
         load();
       })
     );
@@ -136,7 +119,6 @@ export function useRewardedAd(rewardType, onRewarded) {
         if (!isMountedRef.current) return;
         setStatus('error');
         removeListeners();
-        // Retry after 30 s — long enough not to hammer the network
         setTimeout(() => {
           if (isMountedRef.current) load();
         }, 30_000);

@@ -5,11 +5,12 @@ import { colors, MONO } from '../styles';
 // RESOURCE CONFIG
 // ─────────────────────────────────────────────
 const RESOURCES = [
-  { key: 'food',     label: 'FOOD', icon: 'F', warnAt: 20, dangerAt: 10, max: null },
-  { key: 'fuel',     label: 'FUEL', icon: 'U', warnAt: 20, dangerAt: 10, max: null },
-  { key: 'medicine', label: 'MED',  icon: '+', warnAt: 10, dangerAt:  5, max: null },
-  { key: 'scrap',    label: 'SCRP', icon: 'S', warnAt:  5, dangerAt:  0, max: null },
-  { key: 'morale',   label: 'MRL',  icon: 'M', warnAt: 30, dangerAt: 15, max: 100  },
+  { key: 'food',      label: 'FOOD',  warnAt: 20, dangerAt: 10, max: null },
+  { key: 'fuel',      label: 'FUEL',  warnAt: 20, dangerAt: 10, max: null },
+  { key: 'medicine',  label: 'MEDIC', warnAt: 10, dangerAt:  5, max: null },
+  { key: 'scrap',     label: 'SCRAP', warnAt:  5, dangerAt:  0, max: null },
+  { key: 'morale',    label: 'MORAL', warnAt: 30, dangerAt: 15, max: 100  },
+  { key: 'survivors', label: 'SURV',  warnAt:  3, dangerAt:  2, max: null },
 ];
 
 function valueColor(value, resource) {
@@ -33,14 +34,15 @@ function valueColor(value, resource) {
  *   style     {object}  optional outer container style
  */
 export default function ResourceBar({
-  food     = 0,
-  fuel     = 0,
-  medicine = 0,
-  scrap    = 0,
-  morale   = 0,
+  food      = 0,
+  fuel      = 0,
+  medicine  = 0,
+  scrap     = 0,
+  morale    = 0,
+  survivors = 0,
   style,
 }) {
-  const values = { food, fuel, medicine, scrap, morale };
+  const values = { food, fuel, medicine, scrap, morale, survivors };
 
   return (
     <View style={[styles.container, style]}>
@@ -53,9 +55,8 @@ export default function ResourceBar({
           <View key={res.key} style={styles.cellWrapper}>
             <View style={styles.cell}>
               <View style={[styles.iconBadge, { borderColor: col }]}>
-                <Text style={[styles.icon, { color: col }]}>{res.icon}</Text>
+                <Text style={[styles.icon, { color: col }]}>{res.label}</Text>
               </View>
-              <Text style={styles.label}>{res.label}</Text>
               <Text style={[styles.value, { color: col }]}>{value}</Text>
             </View>
             {!isLast && <View style={styles.divider} />}
@@ -90,24 +91,19 @@ const styles = StyleSheet.create({
     gap:        4,
   },
   iconBadge: {
-    width:          22,
-    height:         22,
+    width:          44,
+    height:         18,
     borderWidth:    1,
     borderRadius:   2,
     alignItems:     'center',
     justifyContent: 'center',
   },
   icon: {
-    fontFamily: MONO,
-    fontSize:   11,
-    fontWeight: 'bold',
-    lineHeight: 13,
-  },
-  label: {
-    fontFamily:    MONO,
-    fontSize:      9,
-    color:         colors.textMuted,
-    letterSpacing: 1,
+    fontFamily:  MONO,
+    fontSize:    8,
+    fontWeight:  'bold',
+    lineHeight:  10,
+    textAlign:   'center',
   },
   value: {
     fontFamily: MONO,
