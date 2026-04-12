@@ -4,11 +4,11 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, MONO } from '../styles';
+import Button from '../components/Button';
 
 // ─────────────────────────────────────────────
 // CONTENT
@@ -117,15 +117,13 @@ export default function IntroScreen({ navigation }) {
         </ScrollView>
 
         {/* ── Bottom prompt ───────────────── */}
-        {typingDone ? (
-          <TouchableOpacity style={styles.footer} onPress={handleTap}>
-            <Text style={styles.prompt}>[ CONTINUE ]</Text>
-          </TouchableOpacity>
-        ) : (
-          <View style={styles.footer}>
+        <View style={styles.footer}>
+          {typingDone ? (
+            <Button label="Continue" onPress={handleTap} variant="primary" />
+          ) : (
             <Text style={styles.hint}>TAP TO SKIP</Text>
-          </View>
-        )}
+          )}
+        </View>
 
       </Pressable>
     </SafeAreaView>
@@ -168,12 +166,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: colors.panelBorder,
     alignItems:    'center',
-  },
-  prompt: {
-    fontFamily:    MONO,
-    fontSize:      14,
-    color:         colors.primary,
-    letterSpacing: 3,
   },
   hint: {
     fontFamily:    MONO,
