@@ -1,4 +1,5 @@
 import { ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../styles';
 
 /**
@@ -10,15 +11,17 @@ import { colors } from '../styles';
  */
 export default function ScreenWrapper({ children, centered = false }) {
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: colors.background }}
-      contentContainerStyle={[
-        { padding: 16, paddingBottom: 40 },
-        centered && { alignItems: 'center' },
-      ]}
-      keyboardShouldPersistTaps="handled"
-    >
-      {children}
-    </ScrollView>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={[
+          { padding: 16, paddingBottom: 40 },
+          centered && { alignItems: 'center' },
+        ]}
+        keyboardShouldPersistTaps="handled"
+      >
+        {children}
+      </ScrollView>
+    </SafeAreaView>
   );
 }

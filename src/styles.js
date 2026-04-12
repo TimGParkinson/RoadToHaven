@@ -10,7 +10,7 @@ export const colors = {
 
   primary:     '#00FF9C',  // bright green — main interactive / highlight
   secondary:   '#7CFFB2',  // softer green — secondary text / labels
-  dim:         '#2E4D38',  // muted green — disabled / placeholders
+  dim:         '#6AAF85',  // muted green — disabled / placeholders
 
   warning:     '#FFC857',  // amber — low resources, caution
   danger:      '#FF4C4C',  // red — death, critical state
@@ -18,7 +18,7 @@ export const colors = {
 
   textPrimary:   '#00FF9C',
   textSecondary: '#7CFFB2',
-  textMuted:     '#3D6B4F',
+  textMuted:     '#99FBBF',
   textInverse:   '#0B0F0C', // used on filled buttons
 };
 

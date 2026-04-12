@@ -389,7 +389,7 @@
 {
   "id": "overgrown_farm",
   "title": "Overgrown Farm",
-  "weight": 2,
+  "weight": 5,
   "text": "Fields stretch out, wild but still growing. Something edible might still be here.",
   "art": "  |||\n {|||}\n  |||",
   "choices": [
@@ -416,7 +416,7 @@
 {
   "id": "burning_wreck",
   "title": "Burning Wreck",
-  "weight": 2,
+  "weight": 5,
   "text": "A vehicle burns on the roadside, flames licking the sky. Something might still be salvageable.",
   "art": " (   )\n(🔥🔥)\n (___)",
   "choices": [
@@ -532,6 +532,495 @@
       "outcome": {
         "text": "You find something useful… but at a cost.",
         "changes": { "scrap": 8, "morale": -25 }
+      }
+    }
+  ]
+},
+{
+  "id": "fuel_cache",
+  "title": "Sealed Fuel Cache",
+  "weight": 1,
+  "text": "Half-buried under rubble, you uncover a sealed military-grade fuel container. Untouched. Intact. A miracle.",
+  "art": " [====]\n |FUEL|\n [====]",
+  "choices": [
+    {
+      "id": "take_all",
+      "label": "Take everything you can carry",
+      "requires": null,
+      "outcome": {
+        "text": "You siphon every drop. This could change everything.",
+        "changes": { "fuel": 60, "morale": 20 }
+      }
+    },
+    {
+      "id": "mark_location",
+      "label": "Mark location and move on",
+      "requires": null,
+      "outcome": {
+        "text": "You note it for later. If there is a later.",
+        "changes": { "morale": 5 }
+      }
+    }
+  ]
+},
+{
+  "id": "hidden_bunker",
+  "title": "Hidden Bunker",
+  "weight": 1,
+  "text": "A concealed hatch beneath debris leads to an underground bunker. The air inside is stale, but untouched.",
+  "art": "  ____\n |____|\n | || |\n |____|",
+  "choices": [
+    {
+      "id": "loot",
+      "label": "Search the bunker",
+      "requires": null,
+      "outcome": {
+        "text": "Stockpiles. Food, tools, supplies. Someone planned for this.",
+        "changes": { "food": 40, "scrap": 20, "medicine": 15, "morale": 25 }
+      }
+    },
+    {
+      "id": "leave",
+      "label": "Too quiet… leave it",
+      "requires": null,
+      "outcome": {
+        "text": "You don’t trust places like this.",
+        "changes": {}
+      }
+    }
+  ]
+},
+{
+  "id": "roadside_tools",
+  "title": "Abandoned Tool Kit",
+  "weight": 5,
+  "text": "A rusted toolbox lies beside the road, half-buried in dust.",
+  "art": " [__]\n |__|",
+  "choices": [
+    {
+      "id": "take_tools",
+      "label": "Take the tools",
+      "requires": null,
+      "outcome": {
+        "text": "Still usable. Barely.",
+        "changes": { "scrap": 12 }
+      }
+    },
+    {
+      "id": "ignore",
+      "label": "Leave it",
+      "requires": null,
+      "outcome": { "text": "You keep moving.", "changes": {} }
+    }
+  ]
+},
+{
+  "id": "thick_fog",
+  "title": "Thick Fog",
+  "weight": 5,
+  "text": "A heavy fog rolls in, swallowing the road ahead.",
+  "art": " ~~~~~\n ~~~~~",
+  "choices": [
+    {
+      "id": "slow_drive",
+      "label": "Slow down",
+      "requires": null,
+      "outcome": {
+        "text": "You crawl forward carefully.",
+        "changes": { "fuel": -3 }
+      }
+    },
+    {
+      "id": "push_speed",
+      "label": "Keep speed",
+      "requires": null,
+      "outcome": {
+        "text": "You nearly hit something. The group is shaken.",
+        "changes": { "morale": -10 }
+      }
+    }
+  ]
+},
+{
+  "id": "dead_battery",
+  "title": "Dead Battery",
+  "weight": 3,
+  "text": "The engine won’t turn over. Battery’s dead.",
+  "art": " [--]",
+  "choices": [
+    {
+      "id": "replace_parts",
+      "label": "Use scrap to fix it",
+      "requires": { "scrap": 6 },
+      "outcome": {
+        "text": "You rig a working replacement.",
+        "changes": { "scrap": -6 }
+      }
+    },
+    {
+      "id": "push_start",
+      "label": "Push start",
+      "requires": null,
+      "outcome": {
+        "text": "It works… eventually.",
+        "changes": { "morale": -8 }
+      }
+    }
+  ]
+},
+{
+  "id": "old_map",
+  "title": "Old Map",
+  "weight": 3,
+  "text": "You find a faded road map with handwritten markings.",
+  "art": "  /\\\n /__\\",
+  "choices": [
+    {
+      "id": "follow_map",
+      "label": "Follow marked route",
+      "requires": { "fuel": 8 },
+      "outcome": {
+        "text": "You find a small cache along the way.",
+        "changes": { "fuel": -8, "food": 15, "scrap": 10 }
+      }
+    },
+    {
+      "id": "ignore",
+      "label": "Ignore it",
+      "requires": null,
+      "outcome": { "text": "Too risky.", "changes": {} }
+    }
+  ]
+},
+{
+  "id": "distant_gunfire",
+  "title": "Distant Gunfire",
+  "weight": 3,
+  "text": "Gunshots echo in the distance. Close enough to matter.",
+  "art": "  * *\n * *",
+  "choices": [
+    {
+      "id": "investigate",
+      "label": "Investigate",
+      "requires": null,
+      "outcome": {
+        "text": "You arrive too late. But there are supplies left behind.",
+        "changes": { "scrap": 10, "food": 10, "morale": -5 }
+      }
+    },
+    {
+      "id": "avoid",
+      "label": "Avoid the area",
+      "requires": { "fuel": 6 },
+      "outcome": {
+        "text": "You steer clear.",
+        "changes": { "fuel": -6 }
+      }
+    }
+  ]
+},
+{
+  "id": "quiet_night",
+  "title": "Quiet Night",
+  "weight": 6,
+  "text": "For once, the night is still. No sounds. No movement.",
+  "art": "  *\n ***",
+  "choices": [
+    {
+      "id": "rest",
+      "label": "Rest well",
+      "requires": null,
+      "outcome": {
+        "text": "Everyone sleeps easier.",
+        "changes": { "morale": 15 }
+      }
+    }
+  ]
+},
+{
+  "id": "minefield",
+  "title": "Old Minefield",
+  "weight": 1,
+  "text": "Warning signs half-buried in dirt. Mines. Still active… maybe.",
+  "art": "  ! !\n [X X]",
+  "choices": [
+    {
+      "id": "navigate",
+      "label": "Carefully navigate through",
+      "requires": null,
+      "outcome": {
+        "text": "Every second is tense. You make it through.",
+        "changes": { "morale": -20 }
+      }
+    },
+    {
+      "id": "detour",
+      "label": "Go around",
+      "requires": { "fuel": 12 },
+      "outcome": {
+        "text": "You take the long way.",
+        "changes": { "fuel": -12 }
+      }
+    }
+  ]
+},
+{
+  "id": "supply_drop",
+  "title": "Supply Drop",
+  "weight": 1,
+  "text": "A crate lies smashed open — marked with an old relief agency symbol.",
+  "art": " [+++]\n |   |\n [___]",
+  "choices": [
+    {
+      "id": "loot",
+      "label": "Take supplies",
+      "requires": null,
+      "outcome": {
+        "text": "Canned food. Sealed. Still good.",
+        "changes": { "food": 50, "morale": 15 }
+      }
+    }
+  ]
+},
+{
+  "id": "dust_storm",
+  "title": "Dust Storm",
+  "weight": 4,
+  "text": "A wall of dust rolls across the wasteland, swallowing everything in its path.",
+  "art": " /////\n///////",
+  "choices": [
+    {
+      "id": "wait",
+      "label": "Wait it out",
+      "requires": null,
+      "outcome": {
+        "text": "You sit in silence as the storm howls past.",
+        "changes": { "food": -5 }
+      }
+    },
+    {
+      "id": "drive",
+      "label": "Drive through it",
+      "requires": null,
+      "outcome": {
+        "text": "Visibility drops to nothing. You nearly lose control.",
+        "changes": { "morale": -10, "fuel": -5 }
+      }
+    }
+  ]
+},
+{
+  "id": "signpost",
+  "title": "Broken Signpost",
+  "weight": 3,
+  "text": "A bent highway sign points in two directions. One has been scratched out.",
+  "art": "  |\n<- ->",
+  "choices": [
+    {
+      "id": "left",
+      "label": "Take the left road",
+      "requires": { "fuel": 5 },
+      "outcome": {
+        "text": "It’s longer, but safer.",
+        "changes": { "fuel": -5 }
+      }
+    },
+    {
+      "id": "right",
+      "label": "Take the unknown path",
+      "requires": null,
+      "outcome": {
+        "text": "You find something unexpected.",
+        "changes": { "scrap": 8 }
+      }
+    }
+  ]
+},
+{
+  "id": "cold_night",
+  "title": "Freezing Night",
+  "weight": 4,
+  "text": "The temperature drops fast after sunset.",
+  "art": "  *\n * *",
+  "choices": [
+    {
+      "id": "burn_supplies",
+      "label": "Burn supplies for warmth",
+      "requires": { "scrap": 5 },
+      "outcome": {
+        "text": "The fire keeps everyone alive.",
+        "changes": { "scrap": -5, "morale": 10 }
+      }
+    },
+    {
+      "id": "endure",
+      "label": "Endure the cold",
+      "requires": null,
+      "outcome": {
+        "text": "No one sleeps well.",
+        "changes": { "morale": -10 }
+      }
+    }
+  ]
+},
+{
+  "id": "abandoned_convoy",
+  "title": "Abandoned Convoy",
+  "weight": 2,
+  "text": "Military trucks sit idle on the road. Doors open. No bodies.",
+  "art": "[====] [====]",
+  "choices": [
+    {
+      "id": "search",
+      "label": "Search vehicles",
+      "requires": null,
+      "outcome": {
+        "text": "You find useful gear.",
+        "changes": { "scrap": 20, "fuel": 15 }
+      }
+    },
+    {
+      "id": "leave",
+      "label": "Too suspicious",
+      "requires": null,
+      "outcome": {
+        "text": "You move on quickly.",
+        "changes": {}
+      }
+    }
+  ]
+},
+{
+  "id": "injured_animal",
+  "title": "Injured Animal",
+  "weight": 3,
+  "text": "A wounded animal limps across the road.",
+  "art": " /\\_/\\",
+  "choices": [
+    {
+      "id": "hunt",
+      "label": "Put it down for food",
+      "requires": null,
+      "outcome": {
+        "text": "Not pretty, but necessary.",
+        "changes": { "food": 20, "morale": -5 }
+      }
+    },
+    {
+      "id": "help",
+      "label": "Help it",
+      "requires": { "medicine": 5 },
+      "outcome": {
+        "text": "It limps away. The group feels better.",
+        "changes": { "medicine": -5, "morale": 10 }
+      }
+    }
+  ]
+},
+{
+  "id": "radio_tower",
+  "title": "Radio Tower",
+  "weight": 2,
+  "text": "A tall communications tower still stands.",
+  "art": "  /\\\n /||\\",
+  "choices": [
+    {
+      "id": "climb",
+      "label": "Climb it",
+      "requires": null,
+      "outcome": {
+        "text": "You spot a safer route ahead.",
+        "changes": { "fuel": -5, "morale": 10 }
+      }
+    },
+    {
+      "id": "salvage",
+      "label": "Salvage parts",
+      "requires": null,
+      "outcome": {
+        "text": "Valuable electronics.",
+        "changes": { "scrap": 15 }
+      }
+    }
+  ]
+},
+{
+  "id": "survivor_camp",
+  "title": "Survivor Camp",
+  "weight": 1,
+  "text": "You find a hidden camp of survivors. They welcome you cautiously.",
+  "art": " /\\ /\\\n || ||",
+  "choices": [
+    {
+      "id": "trade",
+      "label": "Trade and rest",
+      "requires": null,
+      "outcome": {
+        "text": "You leave better than you arrived.",
+        "changes": { "food": 25, "medicine": 20, "morale": 20 }
+      }
+    }
+  ]
+},
+{
+  "id": "raider_trap",
+  "title": "Raider Trap",
+  "weight": 1,
+  "text": "It was a trap. You're surrounded.",
+  "art": " (X X)",
+  "choices": [
+    {
+      "id": "escape",
+      "label": "Fight your way out",
+      "requires": null,
+      "outcome": {
+        "text": "You escape, barely.",
+        "changes": { "food": -20, "fuel": -15, "morale": -25 }
+      }
+    }
+  ]
+},
+{
+  "id": "vault",
+  "title": "Sealed Vault",
+  "weight": 1,
+  "text": "A massive underground vault door stands slightly open.",
+  "art": "[====]",
+  "choices": [
+    {
+      "id": "enter",
+      "label": "Enter",
+      "requires": null,
+      "outcome": {
+        "text": "Unbelievable. Supplies untouched for decades.",
+        "changes": { "food": 60, "fuel": 40, "medicine": 30, "morale": 30 }
+      }
+    }
+  ]
+},
+{
+  "id": "mysterious_signal",
+  "title": "Strange Signal",
+  "weight": 1,
+  "text": "A repeating signal cuts through all static. It doesn’t sound human.",
+  "art": " ~~~",
+  "choices": [
+    {
+      "id": "follow",
+      "label": "Follow it",
+      "requires": { "fuel": 15 },
+      "outcome": {
+        "text": "You find something… you don’t understand.",
+        "changes": { "morale": 30 }
+      }
+    },
+    {
+      "id": "ignore",
+      "label": "Ignore it",
+      "requires": null,
+      "outcome": {
+        "text": "Some things are better left alone.",
+        "changes": {}
       }
     }
   ]

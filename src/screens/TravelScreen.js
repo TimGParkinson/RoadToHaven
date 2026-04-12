@@ -21,11 +21,9 @@ const MAX_ADS_PER_RUN   = 5;       // combined cap across fuel + food for the wh
 const AD_SHOW_THRESHOLD = 30;      // only surface ad option when a resource drops below this
 
 const CAR_ART =
-`    __________
-   /  []  []  \\
-  |____________|
-  _|          |_
- (o)          (o)`;
+`   _______
+ ____/|_||_| |__
+( (_)______(_)_ )`;
 
 const SCAVENGE_FINDS = [
   { changes: { food: 14 },           log: 'Found canned goods stashed behind a wall panel.' },

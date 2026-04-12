@@ -1,36 +1,43 @@
 import 'react-native-gesture-handler'; // must be first import
-import { useEffect }              from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { useEffect, useState }    from 'react';
+import { View, StyleSheet } from 'react-native';
+import { SafeAreaProvider }       from 'react-native-safe-area-context';
 import { GameProvider, useGame }  from './src/context/GameContext';
 import { initialiseMobileAds }   from './src/services/adService';
 import AppNavigator               from './src/navigation/AppNavigator';
-import { colors, MONO }           from './src/styles';
+import JSSplash                   from './src/screens/SplashScreen';
+import { colors }                 from './src/styles';
+import * as NativeSplash from 'expo-splash-screen';
 
-// ─────────────────────────────────────────────
-// LOADING SCREEN
-// Shown for the brief moment AsyncStorage is reading the save.
-// ─────────────────────────────────────────────
-function LoadingScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>LOADING...</Text>
-    </View>
-  );
-}
-
+NativeSplash.preventAutoHideAsync();
 // ─────────────────────────────────────────────
 // ROOT
 // Inner component so it can call useGame() inside GameProvider.
 // ─────────────────────────────────────────────
 function Root() {
   const { isLoading } = useGame();
+  const [splashVisible, setSplashVisible] = useState(true);
 
   useEffect(() => {
+    // Hand off from the native splash to our JS splash immediately
+    NativeSplash.hideAsync();
     initialiseMobileAds();
   }, []);
 
-  if (isLoading) return <LoadingScreen />;
-  return <AppNavigator />;
+  useEffect(() => {
+    if (!isLoading) {
+      // Keep JS splash visible for at least 1.5 s so it's actually seen
+      const timer = setTimeout(() => setSplashVisible(false), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
+
+  return (
+    <View style={styles.container}>
+      {!isLoading && <AppNavigator />}
+      <JSSplash visible={splashVisible} />
+    </View>
+  );
 }
 
 // ─────────────────────────────────────────────
@@ -38,9 +45,11 @@ function Root() {
 // ─────────────────────────────────────────────
 export default function App() {
   return (
-    <GameProvider>
-      <Root />
-    </GameProvider>
+    <SafeAreaProvider>
+      <GameProvider>
+        <Root />
+      </GameProvider>
+    </SafeAreaProvider>
   );
 }
 
@@ -48,13 +57,5 @@ const styles = StyleSheet.create({
   container: {
     flex:            1,
     backgroundColor: colors.background,
-    alignItems:      'center',
-    justifyContent:  'center',
-  },
-  text: {
-    fontFamily:    MONO,
-    fontSize:      14,
-    color:         colors.primary,
-    letterSpacing: 4,
   },
 });
