@@ -119,7 +119,7 @@ export default function IntroScreen({ navigation }) {
         {/* ── Bottom prompt ───────────────── */}
         {typingDone ? (
           <TouchableOpacity style={styles.footer} onPress={handleTap}>
-            <Text style={styles.prompt}>[ &gt; CONTINUE ]</Text>
+            <Text style={styles.prompt}>[ CONTINUE ]</Text>
           </TouchableOpacity>
         ) : (
           <View style={styles.footer}>
