@@ -1366,5 +1366,41 @@
       }
     }
   ]
+},
+{
+  "id": "lone_survivor",
+  "title": "Lone Survivor",
+  "weight": 2,
+  "text": "A figure steps from the rubble — hands raised, unarmed. Young. Eyes hollow but alert. 'I won't slow you down,' they say quietly. 'I just need somewhere to go.'",
+  "art": "   ___   \n  (. .)  \n   )|(   \n  /   \\  \n _|___|_ ",
+  "choices": [
+    {
+      "id": "take_them_in",
+      "label": "Take them in",
+      "requires": { "food": 15 },
+      "outcome": {
+        "text": "You make room. They climb in without a word. By nightfall, they're already pulling their weight.",
+        "changes": { "food": -15, "survivors": 1, "morale": 15 }
+      }
+    },
+    {
+      "id": "leave_supplies",
+      "label": "Leave food and move on",
+      "requires": { "food": 10 },
+      "outcome": {
+        "text": "You press a bag into their hands. They nod. You drive away. The group is quiet for a long time.",
+        "changes": { "food": -10, "morale": -5 }
+      }
+    },
+    {
+      "id": "leave",
+      "label": "You can't take on another mouth",
+      "requires": null,
+      "outcome": {
+        "text": "You keep moving. Nobody meets each other's eyes. The road behind you feels longer than it should.",
+        "changes": { "morale": -15 }
+      }
+    }
+  ]
 }
 ]
