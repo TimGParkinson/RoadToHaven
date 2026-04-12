@@ -247,7 +247,8 @@ export default function TravelScreen({ navigation }) {
       {/* ── Resources ───────────────────────── */}
       <ResourceBar
         food={game.food} fuel={game.fuel} medicine={game.medicine}
-        scrap={game.scrap} morale={game.morale} style={screen.resourceBar}
+        scrap={game.scrap} morale={game.morale} survivors={game.survivors}
+        style={screen.resourceBar}
       />
 
       {/* ── ASCII car ───────────────────────── */}

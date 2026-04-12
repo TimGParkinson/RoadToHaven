@@ -55,7 +55,7 @@ export default function EventScreen({ navigation, route }) {
 
   // ── Handle a choice tap ─────────────────────
   function handleChoice(choiceId) {
-    const state  = { food: game.food, fuel: game.fuel, medicine: game.medicine, scrap: game.scrap, morale: game.morale };
+    const state  = { food: game.food, fuel: game.fuel, medicine: game.medicine, scrap: game.scrap, morale: game.morale, survivors: game.survivors };
     const result = resolveChoice(event, choiceId, state);
     if (!result.success) return; // button was disabled — guard anyway
     game.applyChanges(result.changes);
@@ -104,7 +104,7 @@ export default function EventScreen({ navigation, route }) {
       {!outcome && (
         <View style={screen.choices}>
           {event.choices.map((choice) => {
-            const state     = { food: game.food, fuel: game.fuel, medicine: game.medicine, scrap: game.scrap, morale: game.morale };
+            const state     = { food: game.food, fuel: game.fuel, medicine: game.medicine, scrap: game.scrap, morale: game.morale, survivors: game.survivors };
             const available = isChoiceAvailable(choice, state);
             const missing   = getMissingRequirements(choice, state);
 

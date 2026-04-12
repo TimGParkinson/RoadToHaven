@@ -1024,5 +1024,347 @@
       }
     }
   ]
+},
+{
+  "id": "night_attack",
+  "title": "Night Attack",
+  "weight": 2,
+  "text": "Screams tear through the night. Shapes move just beyond the firelight. Something — or someone — is attacking.",
+  "art": "  ***  \n (!!!) \n  / \\  ",
+  "choices": [
+    {
+      "id": "defend",
+      "label": "Defend the camp",
+      "requires": null,
+      "outcome": {
+        "text": "You fight them off, but not without loss.",
+        "changes": { "morale": -20, "survivors": -1 }
+      }
+    },
+    {
+      "id": "flee",
+      "label": "Flee into the dark",
+      "requires": { "fuel": 8 },
+      "outcome": {
+        "text": "You escape, leaving chaos behind.",
+        "changes": { "fuel": -8, "morale": -10 }
+      }
+    }
+  ]
+},
+{
+  "id": "sniper_fire",
+  "title": "Sniper Fire",
+  "weight": 1,
+  "text": "A shot cracks. Then another. Someone is picking you off from a distance.",
+  "art": "  --*  \n   /\\  ",
+  "choices": [
+    {
+      "id": "rush",
+      "label": "Rush forward",
+      "requires": null,
+      "outcome": {
+        "text": "You close the distance, but one of you doesn’t make it.",
+        "changes": { "survivors": -1, "morale": -15 }
+      }
+    },
+    {
+      "id": "retreat",
+      "label": "Retreat fast",
+      "requires": { "fuel": 6 },
+      "outcome": {
+        "text": "You escape the kill zone.",
+        "changes": { "fuel": -6 }
+      }
+    }
+  ]
+},
+{
+  "id": "infected_wound",
+  "title": "Infected Wound",
+  "weight": 2,
+  "text": "One of your group is feverish. The wound is infected… and getting worse.",
+  "art": "  (x)  ",
+  "choices": [
+    {
+      "id": "treat",
+      "label": "Use medicine",
+      "requires": { "medicine": 15 },
+      "outcome": {
+        "text": "You stabilize them. For now.",
+        "changes": { "medicine": -15, "morale": 10 }
+      }
+    },
+    {
+      "id": "amputate",
+      "label": "Amputate",
+      "requires": { "medicine": 5 },
+      "outcome": {
+        "text": "They survive… barely.",
+        "changes": { "medicine": -5, "morale": -10 }
+      }
+    },
+    {
+      "id": "do_nothing",
+      "label": "Wait it out",
+      "requires": null,
+      "outcome": {
+        "text": "They don’t make it.",
+        "changes": { "survivors": -1, "morale": -25 }
+      }
+    }
+  ]
+},
+{
+  "id": "river_crossing",
+  "title": "River Crossing",
+  "weight": 2,
+  "text": "The bridge is gone. A fast-moving river blocks your path.",
+  "art": " ~~~~~ \n ~~~~~ ",
+  "choices": [
+    {
+      "id": "ford",
+      "label": "Cross on foot",
+      "requires": null,
+      "outcome": {
+        "text": "The current takes one of you.",
+        "changes": { "survivors": -1, "morale": -20 }
+      }
+    },
+    {
+      "id": "build",
+      "label": "Build a raft",
+      "requires": { "scrap": 10 },
+      "outcome": {
+        "text": "It holds together. Barely.",
+        "changes": { "scrap": -10 }
+      }
+    }
+  ]
+},
+{
+  "id": "internal_theft",
+  "title": "Internal Theft",
+  "weight": 2,
+  "text": "Supplies are missing. Someone in your group is stealing.",
+  "art": " (??) ",
+  "choices": [
+    {
+      "id": "confront",
+      "label": "Confront them",
+      "requires": null,
+      "outcome": {
+        "text": "It turns violent.",
+        "changes": { "survivors": -1, "morale": -15 }
+      }
+    },
+    {
+      "id": "ignore",
+      "label": "Ignore it",
+      "requires": null,
+      "outcome": {
+        "text": "Trust erodes.",
+        "changes": { "food": -10, "morale": -20 }
+      }
+    }
+  ]
+},
+{
+  "id": "collapsed_building",
+  "title": "Collapsed Building",
+  "weight": 2,
+  "text": "The structure groans… then collapses while you're inside.",
+  "art": " /XX\\ ",
+  "choices": [
+    {
+      "id": "search_rubble",
+      "label": "Dig through rubble",
+      "requires": { "scrap": 5 },
+      "outcome": {
+        "text": "You recover supplies… and a body.",
+        "changes": { "scrap": -5, "food": 10, "survivors": -1 }
+      }
+    },
+    {
+      "id": "escape",
+      "label": "Run immediately",
+      "requires": null,
+      "outcome": {
+        "text": "You barely make it out.",
+        "changes": { "morale": -10 }
+      }
+    }
+  ]
+},
+{
+  "id": "animal_mauling",
+  "title": "Animal Mauling",
+  "weight": 2,
+  "text": "A massive mutated beast charges from the brush.",
+  "art": " (##) ",
+  "choices": [
+    {
+      "id": "fight",
+      "label": "Fight it",
+      "requires": null,
+      "outcome": {
+        "text": "You kill it… but lose someone.",
+        "changes": { "food": 25, "survivors": -1, "morale": -10 }
+      }
+    },
+    {
+      "id": "flee",
+      "label": "Run",
+      "requires": { "fuel": 6 },
+      "outcome": {
+        "text": "You escape its jaws.",
+        "changes": { "fuel": -6 }
+      }
+    }
+  ]
+},
+{
+  "id": "radiation_sickness",
+  "title": "Radiation Sickness",
+  "weight": 2,
+  "text": "Someone begins vomiting. Skin pale. Eyes unfocused.",
+  "art": " (..) ",
+  "choices": [
+    {
+      "id": "treat",
+      "label": "Use medicine",
+      "requires": { "medicine": 20 },
+      "outcome": {
+        "text": "They recover slowly.",
+        "changes": { "medicine": -20, "morale": 5 }
+      }
+    },
+    {
+      "id": "isolate",
+      "label": "Isolate them",
+      "requires": null,
+      "outcome": {
+        "text": "They die alone.",
+        "changes": { "survivors": -1, "morale": -30 }
+      }
+    }
+  ]
+},
+{
+  "id": "bridge_snaps",
+  "title": "Bridge Collapse",
+  "weight": 1,
+  "text": "Halfway across, the bridge gives way beneath you.",
+  "art": " ===X===",
+  "choices": [
+    {
+      "id": "push",
+      "label": "Push forward",
+      "requires": null,
+      "outcome": {
+        "text": "You make it… but not all of you.",
+        "changes": { "survivors": -1, "morale": -20 }
+      }
+    }
+  ]
+},
+{
+  "id": "deserter",
+  "title": "Deserter",
+  "weight": 2,
+  "text": "One of your group vanishes overnight. Supplies missing.",
+  "art": "  ...  ",
+  "choices": [
+    {
+      "id": "track",
+      "label": "Track them",
+      "requires": { "fuel": 5 },
+      "outcome": {
+        "text": "You find them… and end it.",
+        "changes": { "fuel": -5, "morale": -10 }
+      }
+    },
+    {
+      "id": "accept",
+      "label": "Let them go",
+      "requires": null,
+      "outcome": {
+        "text": "They're gone.",
+        "changes": { "survivors": -1, "food": -10 }
+      }
+    }
+  ]
+},
+{
+  "id": "fire_spread",
+  "title": "Fire in Camp",
+  "weight": 2,
+  "text": "Flames spread fast through your camp.",
+  "art": " (🔥) ",
+  "choices": [
+    {
+      "id": "save_people",
+      "label": "Save people first",
+      "requires": null,
+      "outcome": {
+        "text": "You lose supplies, but everyone lives.",
+        "changes": { "food": -20, "scrap": -10 }
+      }
+    },
+    {
+      "id": "save_supplies",
+      "label": "Save supplies",
+      "requires": null,
+      "outcome": {
+        "text": "You save gear… but not everyone.",
+        "changes": { "survivors": -1, "morale": -25 }
+      }
+    }
+  ]
+},
+{
+  "id": "falling_rock",
+  "title": "Rockslide",
+  "weight": 2,
+  "text": "A sudden rockslide crashes down from above.",
+  "art": "  ### ",
+  "choices": [
+    {
+      "id": "brace",
+      "label": "Brace impact",
+      "requires": null,
+      "outcome": {
+        "text": "You survive… barely.",
+        "changes": { "survivors": -1, "morale": -15 }
+      }
+    },
+    {
+      "id": "speed",
+      "label": "Accelerate through",
+      "requires": { "fuel": 6 },
+      "outcome": {
+        "text": "You outrun it.",
+        "changes": { "fuel": -6 }
+      }
+    }
+  ]
+},
+{
+  "id": "last_stand",
+  "title": "Last Stand",
+  "weight": 1,
+  "text": "You're surrounded. No escape. Someone volunteers to hold them off.",
+  "art": " (!!!) ",
+  "choices": [
+    {
+      "id": "accept",
+      "label": "Let them stay behind",
+      "requires": null,
+      "outcome": {
+        "text": "You drive away as gunfire fades behind you.",
+        "changes": { "survivors": -1, "morale": -30 }
+      }
+    }
+  ]
 }
 ]

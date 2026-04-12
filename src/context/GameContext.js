@@ -12,6 +12,7 @@ export const INITIAL_STATE = {
   medicine:   30,
   scrap:      15,
   morale:     75,
+  survivors:  4,
   hasRevived: false, // true once the player uses the revive ad — locked for the run
 };
 
@@ -19,7 +20,7 @@ export const TOTAL_DISTANCE = 2000;
 
 // Only these keys may be mutated by applyChanges/modifyStat.
 // Boolean flags like hasRevived are protected from accidental numeric delta.
-const NUMERIC_KEYS = new Set(['day', 'distance', 'food', 'fuel', 'medicine', 'scrap', 'morale']);
+const NUMERIC_KEYS = new Set(['day', 'distance', 'food', 'fuel', 'medicine', 'scrap', 'morale', 'survivors']);
 
 // ─────────────────────────────────────────────
 // ACTION TYPES
@@ -42,10 +43,12 @@ function clamp(value, min = 0, max = 100) {
 }
 
 const CAPPED_STATS = new Set(['morale']);
+const STAT_MIN     = { survivors: 1 }; // survivors can never drop below 1
 
 function applyDelta(state, key, delta) {
   const next = (state[key] ?? 0) + delta;
-  return CAPPED_STATS.has(key) ? clamp(next) : Math.max(0, next);
+  if (CAPPED_STATS.has(key)) return clamp(next);
+  return Math.max(STAT_MIN[key] ?? 0, next);
 }
 
 // ─────────────────────────────────────────────
