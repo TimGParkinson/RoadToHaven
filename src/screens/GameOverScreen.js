@@ -38,11 +38,12 @@ const REASONS = {
 };
 
 const SKULL_ART =
-`    _______
-   /       \\
-  | () () |
-   \\  ___  /
-    |_____|`;
+`  _____
+  /     \
+ |  x x  |
+ |   ^   |
+ |  ___  |
+  \_____/`;
 
 // ─────────────────────────────────────────────
 // SCREEN
@@ -140,7 +141,6 @@ export default function GameOverScreen({ navigation, route }) {
               label={reviveLabel()}
               onPress={reviveAd.showAd}
               variant="warning"
-              showPrefix={reviveAd.isReady}
               disabled={!reviveAd.isReady}
               style={screen.reviveButton}
             />

@@ -214,6 +214,7 @@ export default function TravelScreen({ navigation }) {
   const fuelLow         = game.fuel <= 10;
   const foodLow         = game.food <= 10;
   const travelBlocked   = game.fuel <= 0 || game.food <= 0;
+  const showStore       = game.day > 0 && game.day % 25 === 0;
 
   // ── Render ───────────────────────────────────
   return (
@@ -287,6 +288,16 @@ export default function TravelScreen({ navigation }) {
         {restLocked && (
           <Text style={screen.scavengeLockText}>! ALREADY RESTED — TRAVEL TO CONTINUE</Text>
         )}
+        {showStore && (
+          <>
+            <Button
+              label="Supply Depot  →"
+              onPress={() => navigation.navigate('Store')}
+              variant="secondary"
+            />
+            <Text style={screen.storeHintText}>! MILESTONE — A TRADER IS NEARBY</Text>
+          </>
+        )}
       </View>
 
       {/* ── Ad rewards — only shown when a resource is low ── */}
@@ -299,7 +310,6 @@ export default function TravelScreen({ navigation }) {
               label={fuelAdLabel()}
               onPress={fuelAd.showAd}
               variant="dim"
-              showPrefix={!fuelAdBlocked}
               disabled={fuelAdBlocked}
             />
           )}
@@ -308,7 +318,6 @@ export default function TravelScreen({ navigation }) {
               label={foodAdLabel()}
               onPress={foodAd.showAd}
               variant="dim"
-              showPrefix={!foodAdBlocked}
               disabled={foodAdBlocked}
             />
           )}
@@ -373,6 +382,7 @@ const screen = StyleSheet.create({
 
   actions: { marginTop: 8 },
   scavengeLockText: { fontFamily: MONO, fontSize: 10, color: colors.warning, letterSpacing: 1, marginTop: -6, marginBottom: 6, paddingLeft: 4 },
+  storeHintText:    { fontFamily: MONO, fontSize: 10, color: colors.primary,  letterSpacing: 1, marginTop: -6, marginBottom: 6, paddingLeft: 4 },
 
   adSection: { marginTop: 20 },
   adMeta: {

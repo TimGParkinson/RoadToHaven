@@ -115,7 +115,6 @@ export default function EventScreen({ navigation, route }) {
                   onPress={() => handleChoice(choice.id)}
                   variant={available ? 'primary' : 'dim'}
                   disabled={!available}
-                  showPrefix={available}
                 />
                 {!available && (
                   <Text style={[screen.choiceMeta, { color: colors.danger }]}>

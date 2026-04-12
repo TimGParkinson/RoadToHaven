@@ -11,8 +11,8 @@
         "label": "Fight them off",
         "requires": null,
         "outcome": {
-          "text": "You drive them back after a brutal struggle. They scatter into the ruins, leaving behind a few scraps.",
-          "changes": { "food": -10, "morale": -15, "scrap": 5 }
+          "text": "You drive them back after a brutal struggle. They scatter into the ruins, leaving behind a few scraps and a fuel canister.",
+          "changes": { "food": -10, "morale": -15, "scrap": 5, "fuel": 8 }
         }
       },
       {
@@ -83,8 +83,8 @@
         "label": "Treat their wounds",
         "requires": { "medicine": 10 },
         "outcome": {
-          "text": "You patch them up. They grip your hand before you leave — grateful, speechless. The group feels the weight of that moment.",
-          "changes": { "medicine": -10, "morale": 20 }
+          "text": "You patch them up. They grip your hand before you leave — grateful, speechless. Before you go, they press a small canister of fuel into your hands.",
+          "changes": { "medicine": -10, "morale": 20, "fuel": 6 }
         }
       },
       {
@@ -272,8 +272,8 @@
       "label": "Search for medicine",
       "requires": null,
       "outcome": {
-        "text": "You find a sealed cabinet. Some of it is still usable.",
-        "changes": { "medicine": 20, "morale": 5 }
+        "text": "You find a sealed cabinet. Some of it is still usable. A generator in the back still has fuel in the tank.",
+        "changes": { "medicine": 20, "morale": 5, "fuel": 6 }
       }
     },
     {
@@ -407,8 +407,8 @@
       "label": "Search farmhouse",
       "requires": null,
       "outcome": {
-        "text": "You find tools and supplies.",
-        "changes": { "scrap": 10 }
+        "text": "You find tools and supplies, plus a jerry can of fuel stashed in the barn.",
+        "changes": { "scrap": 10, "fuel": 6 }
       }
     }
   ]
@@ -425,8 +425,8 @@
       "label": "Salvage quickly",
       "requires": null,
       "outcome": {
-        "text": "You grab what you can before the heat forces you back.",
-        "changes": { "scrap": 12, "morale": -5 }
+        "text": "You grab what you can before the heat forces you back — scrap metal and fuel siphoned from the tank.",
+        "changes": { "scrap": 12, "morale": -5, "fuel": 6 }
       }
     },
     {
@@ -680,8 +680,8 @@
       "label": "Follow marked route",
       "requires": { "fuel": 8 },
       "outcome": {
-        "text": "You find a small cache along the way.",
-        "changes": { "fuel": -8, "food": 15, "scrap": 10 }
+        "text": "You find a small cache along the way — food, scrap, and enough fuel to make the detour worth it.",
+        "changes": { "fuel": 7, "food": 15, "scrap": 10 }
       }
     },
     {
@@ -704,8 +704,8 @@
       "label": "Investigate",
       "requires": null,
       "outcome": {
-        "text": "You arrive too late. But there are supplies left behind.",
-        "changes": { "scrap": 10, "food": 10, "morale": -5 }
+        "text": "You arrive too late. But there are supplies left behind — food, scrap, and an abandoned fuel drum.",
+        "changes": { "scrap": 10, "food": 10, "morale": -5, "fuel": 8 }
       }
     },
     {
@@ -956,8 +956,8 @@
       "label": "Trade and rest",
       "requires": null,
       "outcome": {
-        "text": "You leave better than you arrived.",
-        "changes": { "food": 25, "medicine": 20, "morale": 20 }
+        "text": "You leave better than you arrived — food, medicine, fuel, and something like hope.",
+        "changes": { "food": 25, "medicine": 20, "morale": 20, "fuel": 15 }
       }
     }
   ]
@@ -1111,33 +1111,6 @@
       "outcome": {
         "text": "They don’t make it.",
         "changes": { "survivors": -1, "morale": -25 }
-      }
-    }
-  ]
-},
-{
-  "id": "river_crossing",
-  "title": "River Crossing",
-  "weight": 2,
-  "text": "The bridge is gone. A fast-moving river blocks your path.",
-  "art": " ~~~~~ \n ~~~~~ ",
-  "choices": [
-    {
-      "id": "ford",
-      "label": "Cross on foot",
-      "requires": null,
-      "outcome": {
-        "text": "The current takes one of you.",
-        "changes": { "survivors": -1, "morale": -20 }
-      }
-    },
-    {
-      "id": "build",
-      "label": "Build a raft",
-      "requires": { "scrap": 10 },
-      "outcome": {
-        "text": "It holds together. Barely.",
-        "changes": { "scrap": -10 }
       }
     }
   ]
