@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import {
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -96,38 +97,37 @@ export default function IntroScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <TouchableWithoutFeedback onPress={handleTap}>
-        <View style={styles.outer}>
-
-          {/* ── Scrolling text area ─────────── */}
-          <ScrollView
-            ref={scrollRef}
-            style={styles.scroll}
-            contentContainerStyle={styles.scrollContent}
-            scrollEnabled={typingDone}
-            showsVerticalScrollIndicator={false}
-          >
-            <Text style={styles.body}>
-              {displayed}
-              {!typingDone && (
-                <Text style={[styles.cursor, !cursorOn && styles.cursorHidden]}>
-                  {'█'}
-                </Text>
-              )}
-            </Text>
-          </ScrollView>
-
-          {/* ── Bottom prompt ───────────────── */}
-          <View style={styles.footer}>
-            {typingDone ? (
-              <Text style={styles.prompt}>[ &gt; CONTINUE ]</Text>
-            ) : (
-              <Text style={styles.hint}>TAP TO SKIP</Text>
+      <Pressable style={styles.outer} onPress={!typingDone ? handleTap : undefined}>
+        {/* ── Scrolling text area ─────────── */}
+        <ScrollView
+          ref={scrollRef}
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          scrollEnabled={typingDone}
+          showsVerticalScrollIndicator={false}
+        >
+          <Text style={styles.body}>
+            {displayed}
+            {!typingDone && (
+              <Text style={[styles.cursor, !cursorOn && styles.cursorHidden]}>
+                {'█'}
+              </Text>
             )}
-          </View>
+          </Text>
+        </ScrollView>
 
-        </View>
-      </TouchableWithoutFeedback>
+        {/* ── Bottom prompt ───────────────── */}
+        {typingDone ? (
+          <TouchableOpacity style={styles.footer} onPress={handleTap}>
+            <Text style={styles.prompt}>[ &gt; CONTINUE ]</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.footer}>
+            <Text style={styles.hint}>TAP TO SKIP</Text>
+          </View>
+        )}
+
+      </Pressable>
     </SafeAreaView>
   );
 }

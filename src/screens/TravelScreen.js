@@ -69,6 +69,7 @@ export default function TravelScreen({ navigation }) {
   const [log,              setLog]              = useState('> SYSTEMS NOMINAL. AWAITING ORDERS.');
   const [delta,            setDelta]            = useState('');
   const [scavengeStreak,   setScavengeStreak]   = useState(0);
+  const [restLocked,       setRestLocked]       = useState(false);
 
   const MAX_SCAVENGE_STREAK = 2;
   const scavengeLocked = scavengeStreak >= MAX_SCAVENGE_STREAK;
@@ -162,6 +163,7 @@ export default function TravelScreen({ navigation }) {
     game.applyChanges(result.changes);
     game.advanceDay();
     setScavengeStreak(0);
+    setRestLocked(false);
 
     setLog(`> Traveled ${result.miles} mi.${result.warnings.length ? '  ! ' + result.warnings[0] : ''}`);
     setDelta(deltaLabel(result.changes));
@@ -201,6 +203,7 @@ export default function TravelScreen({ navigation }) {
 
     game.applyChanges({ morale: moraleGain, food: foodCost });
     game.advanceDay();
+    setRestLocked(true);
 
     setLog('> Camp made. The group rests through the night.');
     setDelta(deltaLabel({ morale: moraleGain, food: foodCost }));
@@ -280,7 +283,10 @@ export default function TravelScreen({ navigation }) {
         {scavengeLocked && (
           <Text style={screen.scavengeLockText}>! AREA PICKED CLEAN — TRAVEL TO A NEW LOCATION</Text>
         )}
-        <Button label="Rest"     onPress={handleRest}     variant="secondary" />
+        <Button label="Rest"     onPress={handleRest}     variant={restLocked ? 'dim' : 'secondary'} disabled={restLocked} />
+        {restLocked && (
+          <Text style={screen.scavengeLockText}>! ALREADY RESTED — TRAVEL TO CONTINUE</Text>
+        )}
       </View>
 
       {/* ── Ad rewards — only shown when a resource is low ── */}
