@@ -418,7 +418,7 @@
   "title": "Burning Wreck",
   "weight": 5,
   "text": "A vehicle burns on the roadside, flames licking the sky. Something might still be salvageable.",
-  "art": " (   )\n(🔥🔥)\n (___)",
+  "art": "  ) ( )\n ( ^^^)\n  (___)",
   "choices": [
     {
       "id": "salvage",
@@ -1273,7 +1273,7 @@
   "title": "Fire in Camp",
   "weight": 2,
   "text": "Flames spread fast through your camp.",
-  "art": " (🔥) ",
+  "art": " {^^^} ",
   "choices": [
     {
       "id": "save_people",
