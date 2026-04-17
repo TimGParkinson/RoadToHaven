@@ -181,7 +181,7 @@ export default function StoreScreen({ navigation }) {
 
       <SectionDivider style={{ marginVertical: 16 }} />
 
-      <Button label="Leave Store" onPress={() => navigation.goBack()} variant="ghost" />
+      <Button label="Leave Store" onPress={() => navigation.goBack()} variant="dim" />
 
       <Text style={s.legalNote}>
         Purchases are non-refundable and apply to your current run only.

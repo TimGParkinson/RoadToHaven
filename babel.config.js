@@ -16,6 +16,7 @@ module.exports = function (api) {
       {
         alias: {
           'react-native-google-mobile-ads': './src/mocks/googleMobileAds.js',
+          'react-native-iap':               './src/mocks/reactNativeIap.js',
         },
       },
     ]);

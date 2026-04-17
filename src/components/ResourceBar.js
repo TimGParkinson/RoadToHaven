@@ -5,12 +5,12 @@ import { colors, MONO } from '../styles';
 // RESOURCE CONFIG
 // ─────────────────────────────────────────────
 const RESOURCES = [
-  { key: 'food',      label: 'FOOD',  warnAt: 20, dangerAt: 10, max: null },
-  { key: 'fuel',      label: 'FUEL',  warnAt: 20, dangerAt: 10, max: null },
-  { key: 'medicine',  label: 'MEDIC', warnAt: 10, dangerAt:  5, max: null },
-  { key: 'scrap',     label: 'SCRAP', warnAt:  5, dangerAt:  0, max: null },
-  { key: 'morale',    label: 'MORAL', warnAt: 30, dangerAt: 15, max: 100  },
-  { key: 'survivors', label: 'SURV',  warnAt:  3, dangerAt:  2, max: null },
+  { key: 'food',      label: 'FOOD',  warnAt: 20, dangerAt: 10, max: null, suffix: ''  },
+  { key: 'fuel',      label: 'FUEL',  warnAt: 20, dangerAt: 10, max: null, suffix: ''  },
+  { key: 'medicine',  label: 'MEDIC', warnAt: 10, dangerAt:  5, max: null, suffix: ''  },
+  { key: 'scrap',     label: 'SCRAP', warnAt:  5, dangerAt:  0, max: null, suffix: ''  },
+  { key: 'morale',    label: 'MORAL', warnAt: 30, dangerAt: 15, max: 100,  suffix: '%' },
+  { key: 'survivors', label: 'SURV',  warnAt:  3, dangerAt:  2, max: null, suffix: ''  },
 ];
 
 function valueColor(value, resource) {
@@ -57,7 +57,7 @@ export default function ResourceBar({
               <View style={[styles.iconBadge, { borderColor: col }]}>
                 <Text style={[styles.icon, { color: col }]}>{res.label}</Text>
               </View>
-              <Text style={[styles.value, { color: col }]}>{value}</Text>
+              <Text style={[styles.value, { color: col }]}>{value}{res.suffix}</Text>
             </View>
             {!isLast && <View style={styles.divider} />}
           </View>
