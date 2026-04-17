@@ -17,7 +17,7 @@ import {
 const REWARDED_ID = Platform.select({
   android: __DEV__
     ? TestIds.REWARDED
-    : 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX',
+    : 'ca-app-pub-8756172309311170/8035068579',
   ios: __DEV__
     ? TestIds.REWARDED
     : 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX',

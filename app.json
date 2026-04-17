@@ -24,7 +24,7 @@
       [
         "react-native-google-mobile-ads",
         {
-          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "androidAppId": "ca-app-pub-8756172309311170~6322518347",
           "iosAppId": "ca-app-pub-3940256099942544~1458002511"
         }
       ]
@@ -33,7 +33,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.timgparkinson.roadtohaven",
+      "package": "com.road_to_haven",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0B0F0C"
