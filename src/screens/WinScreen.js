@@ -57,7 +57,7 @@ export default function WinScreen({ navigation }) {
       <View style={screen.textBox}>
         <Text style={screen.promptPrefix}>&gt;</Text>
         <Text style={screen.narrativeText}>
-          The gates of New Eden open before you. After {game.day} days on the
+          The gates of Haven open before you. After {game.day} days on the
           road — through storms, ambushes, and impossible odds — your group
           has made it. {rating.text}
         </Text>

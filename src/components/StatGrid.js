@@ -44,10 +44,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily:    MONO,
-    fontSize:      9,
-    color:         colors.textMuted,
+    fontSize:      14,
+    fontWeight:    'bold',
+    color:         colors.primary,
     letterSpacing: 3,
-    marginBottom:  10,
+    textAlign:     'center',
+    marginBottom:  12,
   },
   grid: {
     gap: 6,

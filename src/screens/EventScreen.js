@@ -3,12 +3,13 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import { useGame }                                              from '../context/GameContext';
 import { resolveChoice, isChoiceAvailable, getMissingRequirements } from '../systems/eventSystem';
-import ScreenWrapper                                            from '../components/ScreenWrapper';
-import TerminalHeader                                           from '../components/TerminalHeader';
-import SectionDivider                                           from '../components/SectionDivider';
-import AsciiArt                                                 from '../components/AsciiArt';
-import Button                                                   from '../components/Button';
-import { colors, MONO }                                         from '../styles';
+import ScreenWrapper                                              from '../components/ScreenWrapper';
+import TerminalHeader                                            from '../components/TerminalHeader';
+import SectionDivider                                            from '../components/SectionDivider';
+import AsciiArt                                                  from '../components/AsciiArt';
+import Button                                                    from '../components/Button';
+import ResourceBar                                               from '../components/ResourceBar';
+import { colors, MONO }                                          from '../styles';
 
 // ─────────────────────────────────────────────
 // HELPERS
@@ -48,7 +49,7 @@ export default function EventScreen({ navigation, route }) {
 
   useEffect(() => {
     if (game.isDead) {
-      const reason = game.fuel <= 0 ? 'fuel' : 'food';
+      const reason = game.survivors <= 0 ? 'survivors' : game.fuel <= 0 ? 'fuel' : 'food';
       navigation.replace('GameOver', { reason });
     }
   }, [game.isDead]);
@@ -72,6 +73,15 @@ export default function EventScreen({ navigation, route }) {
 
       {/* ── Terminal header ─────────────────── */}
       <TerminalHeader label="// INCIDENT LOG" />
+
+      {/* ── Resource bar (trader events only) ── */}
+      {event.id === 'wandering_trader' && (
+        <ResourceBar
+          food={game.food} fuel={game.fuel} medicine={game.medicine}
+          scrap={game.scrap} morale={game.morale} survivors={game.survivors}
+          style={{ marginBottom: 8 }}
+        />
+      )}
 
       {/* ── Event title ─────────────────────── */}
       <Text style={screen.title}>{event.title.toUpperCase()}</Text>

@@ -1083,6 +1083,7 @@
   "id": "infected_wound",
   "title": "Infected Wound",
   "weight": 2,
+  "requires": { "survivors": 2 },
   "text": "One of your group is feverish. The wound is infected… and getting worse.",
   "art": "  (x)  ",
   "choices": [
@@ -1111,6 +1112,44 @@
       "outcome": {
         "text": "They don’t make it.",
         "changes": { "survivors": -1, "morale": -25 }
+      }
+    }
+  ]
+},
+{
+  "id": "solo_infection",
+  "title": "Infected Wound",
+  "weight": 2,
+  "requires": { "survivors": 1 },
+  "requiresMax": { "survivors": 1 },
+  "text": "Your arm is infected. Fever is setting in. You’re alone — there’s no one to help you.",
+  "art": "  (x)  ",
+  "choices": [
+    {
+      "id": "treat",
+      "label": "Use medicine",
+      "requires": { "medicine": 15 },
+      "outcome": {
+        "text": "You clean the wound, bite down hard, and treat it yourself. The fever breaks by morning.",
+        "changes": { "medicine": -15, "morale": 10 }
+      }
+    },
+    {
+      "id": "push_through",
+      "label": "Push through it",
+      "requires": null,
+      "outcome": {
+        "text": "You drive through the pain and the haze. It costs you — in food, in willpower. But you’re still moving.",
+        "changes": { "morale": -20, "food": -10 }
+      }
+    },
+    {
+      "id": "rest_and_hope",
+      "label": "Rest and hope it passes",
+      "requires": null,
+      "outcome": {
+        "text": "You pull over and sleep for a full day. The fever subsides. You lost time, but you’re alive.",
+        "changes": { "morale": -15 }
       }
     }
   ]
@@ -1245,6 +1284,7 @@
   "id": "deserter",
   "title": "Deserter",
   "weight": 2,
+  "requires": { "survivors": 2 },
   "text": "One of your group vanishes overnight. Supplies missing.",
   "art": "  ...  ",
   "choices": [

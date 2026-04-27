@@ -25,6 +25,11 @@ const REASONS = {
     text:  'The engine coughs and dies. The tank is dry. No fuel, no movement. The wasteland closes in around a vehicle that will never move again.',
     color: colors.warning,
   },
+  survivors: {
+    label: 'CAUSE: LAST ONE GONE',
+    text:  'Your last companion is gone. There is no one left. The road to Haven continues without you.',
+    color: colors.danger,
+  },
   combat: {
     label: 'CAUSE: OVERWHELMED',
     text:  "They were too many, too armed. You fought until you couldn't. The road ends here.",
@@ -39,11 +44,11 @@ const REASONS = {
 
 const SKULL_ART =
 `  _____
-  /     \
- |  x x  |
- |   ^   |
- |  ___  |
-  \_____/`;
+  /     \\
+  | x x  |
+  |  ^   |
+  | ___  |
+  \\_____/`;
 
 // ─────────────────────────────────────────────
 // SCREEN

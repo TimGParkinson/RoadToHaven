@@ -24,13 +24,16 @@ const REWARDED_ID = Platform.select({
   default: TestIds.REWARDED,
 });
 
+// False until AdMob approves the app — set EXPO_PUBLIC_ADS_READY=true in eas.json to enable.
+const ADS_DISABLED = process.env.EXPO_PUBLIC_ADS_READY !== 'true';
+
 // ─────────────────────────────────────────────
 // SDK INITIALISATION  (call once in App.js)
 // ─────────────────────────────────────────────
 let _sdkInitialised = false;
 
 export async function initialiseMobileAds() {
-  if (_sdkInitialised) return;
+  if (_sdkInitialised || ADS_DISABLED) return;
   await MobileAds().initialize();
   _sdkInitialised = true;
 }
@@ -130,7 +133,7 @@ export function useRewardedAd(rewardType, onRewarded) {
 
   useEffect(() => {
     isMountedRef.current = true;
-    load();
+    if (!ADS_DISABLED) load();
     return () => {
       isMountedRef.current = false;
       removeListeners();

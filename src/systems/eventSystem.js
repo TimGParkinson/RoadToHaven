@@ -15,11 +15,20 @@ let recentEvents = [];
  * const event = getRandomEvent();
  * const event = getRandomEvent(['road_ambush', 'feral_pack']); // won't repeat these
  */
-export function getRandomEvent(excludeIds = []) {
+export function getRandomEvent(excludeIds = [], state = {}) {
   // Combine external excludes + recent history
   const combinedExcludes = [...excludeIds, ...recentEvents];
-  // Filter out recently-seen events
-  let pool = EVENTS.filter(e => !combinedExcludes.includes(e.id));
+  // Filter out recently-seen events and events whose requirements aren't met
+  let pool = EVENTS.filter(e => {
+    if (combinedExcludes.includes(e.id)) return false;
+    if (e.requires) {
+      if (!Object.entries(e.requires).every(([stat, min]) => (state[stat] ?? 0) >= min)) return false;
+    }
+    if (e.requiresMax) {
+      if (!Object.entries(e.requiresMax).every(([stat, max]) => (state[stat] ?? 0) <= max)) return false;
+    }
+    return true;
+  });
 
   // If every event has been excluded, reset the pool
   if (pool.length === 0) {

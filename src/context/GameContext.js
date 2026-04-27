@@ -43,7 +43,7 @@ function clamp(value, min = 0, max = 100) {
 }
 
 const CAPPED_STATS = new Set(['morale']);
-const STAT_MIN     = { survivors: 1 }; // survivors can never drop below 1
+const STAT_MIN     = {}; // no stat floors — survivors reaching 0 ends the run
 
 function applyDelta(state, key, delta) {
   const next = (state[key] ?? 0) + delta;
@@ -134,7 +134,7 @@ export function GameProvider({ children }) {
   // ── Derived values ────────────────────────
 
   const hasWon          = state.distance >= TOTAL_DISTANCE;
-  const isDead          = state.food <= 0 || state.fuel <= 0;
+  const isDead          = state.food <= 0 || state.fuel <= 0 || state.survivors <= 0;
   const progressPercent = Math.min(100, Math.round((state.distance / TOTAL_DISTANCE) * 100));
 
   const value = {

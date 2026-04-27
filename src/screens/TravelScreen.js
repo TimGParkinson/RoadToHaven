@@ -95,13 +95,20 @@ export default function TravelScreen({ navigation }) {
   const seenEvents = useRef([]);
 
   // ── Win / death watchers ─────────────────────
+  // Skip initial mount fire — state may be stale if resetGame dispatch
+  // hasn't propagated yet when navigation lands here.
+  const wonMounted  = useRef(false);
+  const deadMounted = useRef(false);
+
   useEffect(() => {
+    if (!wonMounted.current) { wonMounted.current = true; return; }
     if (game.hasWon) navigation.replace('Win');
   }, [game.hasWon]);
 
   useEffect(() => {
+    if (!deadMounted.current) { deadMounted.current = true; return; }
     if (game.isDead) {
-      const reason = game.fuel <= 0 ? 'fuel' : 'food';
+      const reason = game.survivors <= 0 ? 'survivors' : game.fuel <= 0 ? 'fuel' : 'food';
       navigation.replace('GameOver', { reason });
     }
   }, [game.isDead]);
@@ -172,7 +179,7 @@ export default function TravelScreen({ navigation }) {
     if (nextDistance >= game.totalDistance) return;
 
     if (Math.random() < EVENT_CHANCE) {
-      const event = getRandomEvent(seenEvents.current);
+      const event = getRandomEvent(seenEvents.current, { survivors: game.survivors });
       seenEvents.current = [...seenEvents.current.slice(-3), event.id];
       navigation.navigate('Event', { event });
     }
