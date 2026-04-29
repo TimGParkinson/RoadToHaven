@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { playTrack } from '../services/musicService';
 import {
   Pressable,
   ScrollView,
@@ -54,6 +55,8 @@ export default function IntroScreen({ navigation }) {
   const indexRef    = useRef(0);
   const intervalRef = useRef(null);
   const scrollRef   = useRef(null);
+
+  useEffect(() => { playTrack('tense'); }, []);
 
   // ── Typewriter ────────────────────────────
   useEffect(() => {

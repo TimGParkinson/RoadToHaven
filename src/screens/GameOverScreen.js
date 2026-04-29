@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import { useGame }       from '../context/GameContext';
 import { useRewardedAd } from '../services/adService';
+import { playTrack }     from '../services/musicService';
 import ScreenWrapper     from '../components/ScreenWrapper';
 import TerminalHeader    from '../components/TerminalHeader';
 import SectionDivider    from '../components/SectionDivider';
@@ -59,6 +60,8 @@ export default function GameOverScreen({ navigation, route }) {
   const config = REASONS[reason] ?? REASONS.default;
 
   const [reviveEarned, setReviveEarned] = useState(false);
+
+  useEffect(() => { playTrack('gameover'); }, []);
 
   // ── Rewarded ad ─────────────────────────────
   const reviveAd = useRewardedAd('revive', (cfg) => {

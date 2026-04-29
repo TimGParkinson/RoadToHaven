@@ -5,6 +5,7 @@ import { useGame }          from '../context/GameContext';
 import { travel }           from '../systems/travelSystem';
 import { getRandomEvent }   from '../systems/eventSystem';
 import { useRewardedAd }    from '../services/adService';
+import { playTrack }        from '../services/musicService';
 import ScreenWrapper        from '../components/ScreenWrapper';
 import SectionDivider       from '../components/SectionDivider';
 import ResourceBar          from '../components/ResourceBar';
@@ -90,6 +91,9 @@ export default function TravelScreen({ navigation }) {
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, [anyCooldownActive]);
+
+  // ── Music ────────────────────────────────────
+  useEffect(() => { playTrack('travel'); }, []);
 
   // ── Event history ────────────────────────────
   const seenEvents = useRef([]);

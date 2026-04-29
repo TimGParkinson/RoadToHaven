@@ -1,8 +1,10 @@
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useGame }     from '../context/GameContext';
 import Button          from '../components/Button';
 import AsciiArt        from '../components/AsciiArt';
 import { colors, MONO } from '../styles';
+import { isMusicEnabled, setMusicEnabled, playTrack } from '../services/musicService';
 
 // ─────────────────────────────────────────────
 // ART
@@ -22,6 +24,16 @@ const ROAD_ART =
 // ─────────────────────────────────────────────
 export default function MainMenuScreen({ navigation }) {
   const game = useGame();
+  const [musicOn, setMusicOn] = useState(isMusicEnabled());
+
+  useEffect(() => { if (isMusicEnabled()) playTrack('travel'); }, []);
+
+  async function toggleMusic() {
+    const next = !musicOn;
+    setMusicOn(next);
+    await setMusicEnabled(next);
+    if (next) playTrack('travel');
+  }
 
   // Show "Continue" when there is an active mid-run save
   const hasMidRun = game.day > 1 && !game.isDead && !game.hasWon;
@@ -52,6 +64,9 @@ export default function MainMenuScreen({ navigation }) {
       {/* ── System boot strip ───────────────── */}
       <View style={screen.bootStrip}>
         <Text style={screen.bootText}>// SYS BOOT · HAVEN NAVIGATION v1.0</Text>
+        <TouchableOpacity onPress={toggleMusic} style={screen.musicToggle}>
+          <Text style={screen.musicToggleText}>{musicOn ? '♪ ON' : '♪ OFF'}</Text>
+        </TouchableOpacity>
       </View>
 
       {/* ── Title ───────────────────────────── */}
@@ -110,6 +125,9 @@ const screen = StyleSheet.create({
   content: { flexGrow: 1, padding: 20, justifyContent: 'center', paddingBottom: 40 },
 
   bootStrip: {
+    flexDirection:     'row',
+    justifyContent:    'space-between',
+    alignItems:        'center',
     borderBottomWidth: 1,
     borderBottomColor: colors.panelBorder,
     paddingBottom:     8,
@@ -184,12 +202,22 @@ const screen = StyleSheet.create({
     marginBottom:  12,
   },
 
+  musicToggle: {
+    padding: 4,
+  },
+  musicToggleText: {
+    fontFamily:    MONO,
+    fontSize:      10,
+    color:         colors.textMuted,
+    letterSpacing: 2,
+  },
+
   footer: {
     fontFamily:    MONO,
     fontSize:      9,
     color:         colors.dim,
     textAlign:     'center',
     letterSpacing: 2,
-    marginTop:     12,
+    marginTop:     4,
   },
 });

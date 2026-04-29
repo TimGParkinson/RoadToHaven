@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { View, Text, StyleSheet }  from 'react-native';
 import { useGame }    from '../context/GameContext';
+import { stopMusic }  from '../services/musicService';
 import ScreenWrapper  from '../components/ScreenWrapper';
 import TerminalHeader from '../components/TerminalHeader';
 import StatGrid       from '../components/StatGrid';
@@ -24,6 +26,8 @@ const HAVEN_ART =
 export default function WinScreen({ navigation }) {
   const game   = useGame();
   const rating = getPerformanceRating(game);
+
+  useEffect(() => { stopMusic(); }, []);
 
   async function handlePlayAgain() {
     await game.resetGame();

@@ -4,6 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import { SafeAreaProvider }       from 'react-native-safe-area-context';
 import { GameProvider, useGame }  from './src/context/GameContext';
 import { initialiseMobileAds }   from './src/services/adService';
+import { loadMusicSetting } from './src/services/musicService';
 import AppNavigator               from './src/navigation/AppNavigator';
 import JSSplash                   from './src/screens/SplashScreen';
 import { colors }                 from './src/styles';
@@ -22,6 +23,7 @@ function Root() {
     // Hand off from the native splash to our JS splash immediately
     NativeSplash.hideAsync();
     initialiseMobileAds();
+    loadMusicSetting();
   }, []);
 
   useEffect(() => {
