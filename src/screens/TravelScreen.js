@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useGame }          from '../context/GameContext';
 
 const PACE_KEY = '@rth_pace_preference';
-import { travel, getPaceInfo, PACE_NAMES } from '../systems/travelSystem';
+import { travel, getPaceInfo } from '../systems/travelSystem';
 import { getRandomEvent }   from '../systems/eventSystem';
 import { useRewardedAd }    from '../services/adService';
 import { playTrack }        from '../services/musicService';
@@ -75,6 +75,7 @@ export default function TravelScreen({ navigation }) {
   const [scavengeStreak,   setScavengeStreak]   = useState(0);
   const [restLocked,       setRestLocked]       = useState(false);
   const [pace,             setPace]             = useState('normal');
+  const [paused,           setPaused]           = useState(false);
 
   useEffect(() => {
     AsyncStorage.getItem(PACE_KEY).then(saved => {
@@ -172,7 +173,7 @@ export default function TravelScreen({ navigation }) {
 
   // ── Main actions ─────────────────────────────
   function handleTravel() {
-    const state  = { food: game.food, fuel: game.fuel, morale: game.morale };
+    const state  = { food: game.food, fuel: game.fuel, morale: game.morale, survivors: game.survivors };
     const result = travel(state, pace);
 
     if (!result.canTravel) {
@@ -193,8 +194,8 @@ export default function TravelScreen({ navigation }) {
     if (nextDistance >= game.totalDistance) return;
 
     if (Math.random() < EVENT_CHANCE) {
-      const event = getRandomEvent(seenEvents.current, { survivors: game.survivors });
-      seenEvents.current = [...seenEvents.current.slice(-3), event.id];
+      const event = getRandomEvent(seenEvents.current, { survivors: game.survivors, distance: game.distance });
+      seenEvents.current = [...seenEvents.current.slice(-5), event.id];
       navigation.navigate('Event', { event });
     }
   }
@@ -219,7 +220,7 @@ export default function TravelScreen({ navigation }) {
   }
 
   function handleRest() {
-    const moraleGain = randInt(15, 22);
+    const moraleGain = randInt(8, 12);
     const foodCost   = -randInt(8, 12);
 
     game.applyChanges({ morale: moraleGain, food: foodCost });
@@ -231,11 +232,12 @@ export default function TravelScreen({ navigation }) {
   }
 
   // ── Derived display ──────────────────────────
-  const progressPercent = Math.min(100, Math.round((game.distance / game.totalDistance) * 100));
-  const fuelLow         = game.fuel <= 10;
-  const foodLow         = game.food <= 10;
-  const travelBlocked   = game.fuel <= 0 || game.food <= 0;
-  const showStore       = game.day > 0 && game.day % 25 === 0;
+  const progressPercent  = Math.min(100, Math.round((game.distance / game.totalDistance) * 100));
+  const fuelLow          = game.fuel <= 10;
+  const foodLow          = game.food <= 10;
+  const travelBlocked    = game.fuel <= 0 || game.food <= 0;
+  const showStore        = game.day > 0 && game.day % 25 === 0;
+  const moraleTooLow     = game.morale < 15;
 
   // ── Render ───────────────────────────────────
   return (
@@ -262,6 +264,11 @@ export default function TravelScreen({ navigation }) {
             {progressPercent}<Text style={screen.headerUnit}>%</Text>
           </Text>
         </View>
+        <View style={screen.headerDivider} />
+        <TouchableOpacity style={screen.headerItem} onPress={() => setPaused(true)}>
+          <Text style={screen.headerLabel}>MENU</Text>
+          <Text style={screen.headerValue}>⚙</Text>
+        </TouchableOpacity>
       </View>
 
       {/* ── Progress track ──────────────────── */}
@@ -298,32 +305,24 @@ export default function TravelScreen({ navigation }) {
         </View>
       )}
 
-      {/* ── Pace selector ───────────────────── */}
-      <View style={screen.paceRow}>
-        {PACE_NAMES.map(p => {
-          const info    = getPaceInfo(p);
-          const active  = pace === p;
-          return (
-            <TouchableOpacity
-              key={p}
-              style={[screen.paceButton, active && screen.paceButtonActive]}
-              onPress={() => { setPace(p); AsyncStorage.setItem(PACE_KEY, p); }}
-            >
-              <Text style={[screen.paceLabel, active && screen.paceLabelActive]}>
-                {info.label.toUpperCase()}
-              </Text>
-              <Text style={screen.paceMeta}>{info.milesRange}</Text>
-            </TouchableOpacity>
-          );
-        })}
+      {/* ── Pace indicator (read-only — change in Settings) ── */}
+      <View style={screen.paceIndicator}>
+        <Text style={screen.paceIndicatorLabel}>TRAVEL SPEED</Text>
+        <Text style={screen.paceIndicatorValue}>
+          {getPaceInfo(pace).label.toUpperCase()}
+          <Text style={screen.paceIndicatorMeta}>  ·  {getPaceInfo(pace).milesRange} per day</Text>
+        </Text>
       </View>
 
       {/* ── Main actions ────────────────────── */}
       <View style={screen.actions}>
         <Button label="Travel"   onPress={handleTravel}   variant={travelBlocked ? 'dim' : 'primary'} disabled={travelBlocked} />
-        <Button label="Scavenge" onPress={handleScavenge} variant={scavengeLocked ? 'dim' : 'secondary'} disabled={scavengeLocked || game.food <= 0} />
+        <Button label="Scavenge" onPress={handleScavenge} variant={scavengeLocked || moraleTooLow ? 'dim' : 'secondary'} disabled={scavengeLocked || moraleTooLow || game.food <= 0} />
         {scavengeLocked && (
           <Text style={screen.scavengeLockText}>! AREA PICKED CLEAN — TRAVEL TO A NEW LOCATION</Text>
+        )}
+        {moraleTooLow && !scavengeLocked && (
+          <Text style={screen.scavengeLockText}>! TOO DEMORALISED TO SCAVENGE — REST TO RECOVER</Text>
         )}
         <Button label="Rest"     onPress={handleRest}     variant={restLocked ? 'dim' : 'secondary'} disabled={restLocked} />
         {restLocked && (
@@ -371,6 +370,24 @@ export default function TravelScreen({ navigation }) {
           </Text>
         </View>
       )}
+
+      {/* ── Pause modal ─────────────────────── */}
+      <Modal visible={paused} transparent animationType="fade">
+        <View style={screen.modalOverlay}>
+          <View style={screen.modalBox}>
+            <Text style={screen.modalTitle}>PAUSED</Text>
+            <TouchableOpacity style={screen.modalButton} onPress={() => setPaused(false)}>
+              <Text style={screen.modalButtonText}>RESUME</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={screen.modalButton} onPress={() => { setPaused(false); navigation.navigate('Settings'); }}>
+              <Text style={screen.modalButtonText}>SETTINGS</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[screen.modalButton, screen.modalButtonDanger]} onPress={() => navigation.navigate('MainMenu')}>
+              <Text style={[screen.modalButtonText, { color: colors.warning }]}>EXIT TO MENU</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
     </ScreenWrapper>
   );
@@ -424,36 +441,36 @@ const screen = StyleSheet.create({
   warningBox:  { borderLeftWidth: 3, borderLeftColor: colors.warning, paddingLeft: 10, paddingVertical: 6, marginBottom: 6, gap: 4 },
   warningText: { fontFamily: MONO, fontSize: 11, color: colors.warning, letterSpacing: 1 },
 
-  paceRow: {
-    flexDirection:  'row',
-    gap:            6,
-    marginBottom:   8,
-  },
-  paceButton: {
-    flex:            1,
+  paceIndicator: {
     backgroundColor: colors.panel,
     borderWidth:     1,
     borderColor:     colors.panelBorder,
     borderRadius:    3,
     paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginBottom:    8,
+    flexDirection:   'row',
     alignItems:      'center',
+    justifyContent:  'space-between',
   },
-  paceButtonActive: {
-    borderColor: colors.primary,
-  },
-  paceLabel: {
+  paceIndicatorLabel: {
     fontFamily:    MONO,
-    fontSize:      11,
-    fontWeight:    'bold',
+    fontSize:      9,
     color:         colors.textMuted,
+    letterSpacing: 2,
+  },
+  paceIndicatorValue: {
+    fontFamily:    MONO,
+    fontSize:      13,
+    fontWeight:    'bold',
+    color:         colors.primary,
     letterSpacing: 1,
   },
-  paceLabelActive: { color: colors.primary },
-  paceMeta: {
+  paceIndicatorMeta: {
     fontFamily: MONO,
-    fontSize:   9,
-    color:      colors.dim,
-    marginTop:  2,
+    fontSize:   10,
+    fontWeight: 'normal',
+    color:      colors.textMuted,
   },
 
   actions: { marginTop: 8 },
@@ -475,6 +492,49 @@ const screen = StyleSheet.create({
     color:         colors.textMuted,
     textAlign:     'center',
     marginTop:     4,
+    letterSpacing: 1,
+  },
+
+  modalOverlay: {
+    flex:            1,
+    backgroundColor: 'rgba(0,0,0,0.75)',
+    justifyContent:  'center',
+    alignItems:      'center',
+    padding:         32,
+  },
+  modalBox: {
+    backgroundColor: colors.panel,
+    borderWidth:     1,
+    borderColor:     colors.panelBorder,
+    borderRadius:    4,
+    padding:         24,
+    width:           '100%',
+  },
+  modalTitle: {
+    fontFamily:    MONO,
+    fontSize:      14,
+    fontWeight:    'bold',
+    color:         colors.primary,
+    letterSpacing: 3,
+    textAlign:     'center',
+    marginBottom:  20,
+  },
+  modalButton: {
+    borderWidth:     1,
+    borderColor:     colors.panelBorder,
+    borderRadius:    3,
+    paddingVertical: 14,
+    alignItems:      'center',
+    marginBottom:    8,
+  },
+  modalButtonDanger: {
+    borderColor: colors.warning,
+  },
+  modalButtonText: {
+    fontFamily:    MONO,
+    fontSize:      13,
+    fontWeight:    'bold',
+    color:         colors.secondary,
     letterSpacing: 1,
   },
 });

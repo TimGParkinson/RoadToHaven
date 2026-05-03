@@ -10,15 +10,23 @@ const SECTIONS = [
   },
   {
     title: 'RESOURCES',
-    body:  'FOOD — consumed every day. Hit zero and travel stops.\n\nFUEL — consumed every day. Hit zero and the vehicle dies.\n\nMEDICINE — used to treat injuries and illness.\n\nSCRAP — used to barter, repair, and solve problems.\n\nMORALE — the group\'s will to go on. Falls from bad events, rises from rest and good fortune.\n\nSURVIVORS — your group. Lose them all and the run ends.',
+    body:  'FOOD — consumed every day. Hit zero and travel stops.\n\nFUEL — consumed every day. Hit zero and the vehicle dies.\n\nMEDICINE — used to treat injuries and illness.\n\nSCRAP — used to barter, repair, and solve problems.\n\nMORALE — the group\'s will to go on. Falls from bad events, rises from rest and good fortune. Watch it closely — it has real consequences.\n\nSURVIVORS — your group. Lose them all and the run ends.',
+  },
+  {
+    title: 'MORALE',
+    body:  'Morale affects more than spirit:\n\nBelow 30% — your group is sluggish. Food consumption increases by 15% when travelling.\n\nBelow 15% — the group is too demoralised to scavenge. Rest to recover.\n\nKeep morale above 30% by resting, making good event choices, and avoiding losses.',
+  },
+  {
+    title: 'SURVIVORS',
+    body:  'Fewer survivors means fewer mouths to feed. Food consumption scales with your group size — at 1 survivor, you consume only 25% of the normal food cost.\n\nThis makes solo runs more food-efficient, but you\'ll be more vulnerable in dangerous events and morale will be harder to maintain.',
   },
   {
     title: 'TRAVEL PACE',
-    body:  'Each time you travel, choose a pace:\n\nSLOW (10–20 mi) — conserves supplies but takes longer.\n\nNORMAL (20–35 mi) — balanced risk and distance.\n\nFAST (35–55 mi) — covers ground quickly but burns through food and fuel fast. Risky with low morale.',
+    body:  'Set your default pace in Settings:\n\nSLOW (10–20 mi) — conserves supplies but takes longer.\n\nNORMAL (20–35 mi) — balanced risk and distance.\n\nFAST (35–55 mi) — covers ground quickly but burns through food and fuel fast. Dangerous with low morale.',
   },
   {
     title: 'ACTIONS',
-    body:  'TRAVEL — move toward Haven. Costs food and fuel. May trigger a random event.\n\nSCAVENGE — search the area for supplies. Costs a little food. Can only be done twice in a row before you need to move.\n\nREST — recover morale. Costs food. Can only be done once before you need to travel.',
+    body:  'TRAVEL — move toward Haven. Costs food and fuel. May trigger a random event.\n\nSCAVENGE — search the area for supplies. Costs a little food. Locked after 2 scavenges in a row, or if morale drops below 15%.\n\nREST — recover morale. Costs food. Can only be done once before you need to travel.',
   },
   {
     title: 'EVENTS',

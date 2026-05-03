@@ -36,19 +36,26 @@ export function getRandomEvent(excludeIds = [], state = {}) {
     pool = EVENTS.filter(e => !excludeIds.includes(e.id));
   }
 
+  // Past 1000 miles, rare/hard events (weight ≤ 2) become 1.5× more likely
+  const hardBoost = (state.distance ?? 0) > 1000 ? 1.5 : 1;
+
   // Weighted random selection
   // e.g. weights [3, 2, 1] → totals 6; roll 0–5.99; pick by cumulative range
-  const totalWeight = pool.reduce((sum, e) => sum + (e.weight ?? 1), 0);
+  const totalWeight = pool.reduce((sum, e) => {
+    const w = (e.weight ?? 1) <= 2 ? (e.weight ?? 1) * hardBoost : (e.weight ?? 1);
+    return sum + w;
+  }, 0);
   let roll = Math.random() * totalWeight;
 
   for (const event of pool) {
-    roll -= event.weight ?? 1;
+    const w = (event.weight ?? 1) <= 2 ? (event.weight ?? 1) * hardBoost : (event.weight ?? 1);
+    roll -= w;
     if (roll <= 0) {
       // Track recent events
       recentEvents.push(event.id);
 
-      if (recentEvents.length > 5) {
-        recentEvents.shift(); // keep last 5
+      if (recentEvents.length > 10) {
+        recentEvents.shift(); // keep last 10
       }
 
       return event;

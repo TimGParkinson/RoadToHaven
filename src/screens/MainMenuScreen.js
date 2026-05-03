@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { useGame }     from '../context/GameContext';
-import Button          from '../components/Button';
-import AsciiArt        from '../components/AsciiArt';
+import { useEffect } from 'react';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { useGame }      from '../context/GameContext';
+import Button           from '../components/Button';
+import AsciiArt         from '../components/AsciiArt';
 import { colors, MONO } from '../styles';
-import { isMusicEnabled, setMusicEnabled, playTrack } from '../services/musicService';
+import { isMusicEnabled, playTrack } from '../services/musicService';
 
 // ─────────────────────────────────────────────
 // ART
@@ -24,16 +24,8 @@ const ROAD_ART =
 // ─────────────────────────────────────────────
 export default function MainMenuScreen({ navigation }) {
   const game = useGame();
-  const [musicOn, setMusicOn] = useState(isMusicEnabled());
 
   useEffect(() => { if (isMusicEnabled()) playTrack('travel'); }, []);
-
-  async function toggleMusic() {
-    const next = !musicOn;
-    setMusicOn(next);
-    await setMusicEnabled(next);
-    if (next) playTrack('travel');
-  }
 
   // Show "Continue" when there is an active mid-run save
   const hasMidRun = game.day > 1 && !game.isDead && !game.hasWon;
@@ -64,9 +56,6 @@ export default function MainMenuScreen({ navigation }) {
       {/* ── System boot strip ───────────────── */}
       <View style={screen.bootStrip}>
         <Text style={screen.bootText}>// SYS BOOT · HAVEN NAVIGATION v1.0</Text>
-        <TouchableOpacity onPress={toggleMusic} style={screen.musicToggle}>
-          <Text style={screen.musicToggleText}>{musicOn ? '♪ ON' : '♪ OFF'}</Text>
-        </TouchableOpacity>
       </View>
 
       {/* ── Title ───────────────────────────── */}
@@ -95,7 +84,7 @@ export default function MainMenuScreen({ navigation }) {
       {game.bestRuns?.length > 0 && (
         <View style={screen.bestRunsBox}>
           <Text style={screen.bestRunsTitle}>PERSONAL BEST</Text>
-          {game.bestRuns.slice(0, 3).map((run, i) => (
+          {game.bestRuns.slice(0, 5).map((run, i) => (
             <View key={i} style={screen.bestRunRow}>
               <Text style={screen.bestRunRank}>#{i + 1}</Text>
               <Text style={screen.bestRunText}>
@@ -123,10 +112,15 @@ export default function MainMenuScreen({ navigation }) {
         />
       </View>
 
-      {/* ── How to Play ─────────────────────── */}
+      {/* ── How to Play & Settings ──────────── */}
       <Button
         label="How to Play"
         onPress={() => navigation.navigate('HowToPlay')}
+        variant="ghost"
+      />
+      <Button
+        label="Settings"
+        onPress={() => navigation.navigate('Settings')}
         variant="ghost"
       />
 
@@ -147,9 +141,6 @@ const screen = StyleSheet.create({
   content: { flexGrow: 1, padding: 20, justifyContent: 'center', paddingBottom: 40 },
 
   bootStrip: {
-    flexDirection:     'row',
-    justifyContent:    'space-between',
-    alignItems:        'center',
     borderBottomWidth: 1,
     borderBottomColor: colors.panelBorder,
     paddingBottom:     8,
@@ -255,16 +246,6 @@ const screen = StyleSheet.create({
     letterSpacing: 1,
     marginTop:     -4,
     marginBottom:  12,
-  },
-
-  musicToggle: {
-    padding: 4,
-  },
-  musicToggleText: {
-    fontFamily:    MONO,
-    fontSize:      10,
-    color:         colors.textMuted,
-    letterSpacing: 2,
   },
 
   footer: {

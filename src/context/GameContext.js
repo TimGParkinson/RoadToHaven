@@ -85,7 +85,7 @@ function gameReducer(state, action) {
       const entry    = action.entry;
       const updated  = [...(state.bestRuns ?? []), entry]
         .sort((a, b) => b.distance - a.distance)
-        .slice(0, 5);
+        .slice(0, 10);
       return { ...state, bestRuns: updated };
     }
 

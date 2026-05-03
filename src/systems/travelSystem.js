@@ -104,9 +104,19 @@ export function travel(state, paceName = 'normal') {
   }
 
   // ── Roll the dice ─────────────────────────
-  const miles    = randInt(pace.milesMin, pace.milesMax);
+  let   miles    = randInt(pace.milesMin, pace.milesMax);
   let   foodUsed = randInt(pace.foodMin,  pace.foodMax);
   let   fuelUsed = randInt(pace.fuelMin,  pace.fuelMax);
+
+  // ── Morale penalty (low morale = sluggish group, wastes food, moves slower) ──
+  if ((state.morale ?? 100) < 30) {
+    foodUsed = Math.ceil(foodUsed * 1.15);
+    miles    = Math.floor(miles * 0.8);
+  }
+
+  // ── Survivor scaling (fewer mouths = less food needed) ───────────
+  const survivors = state.survivors ?? 4;
+  foodUsed = Math.ceil(foodUsed * (survivors / 4));
 
   // Cap consumption to what's actually available
   foodUsed = Math.min(foodUsed, state.food);
@@ -120,6 +130,9 @@ export function travel(state, paceName = 'normal') {
 
   if (foodAfter <= 10)  warnings.push(`Food critically low (${foodAfter} remaining).`);
   if (fuelAfter <= 10)  warnings.push(`Fuel critically low (${fuelAfter} remaining).`);
+  if ((state.morale ?? 100) < 30) {
+    warnings.push('Low morale — moving slower and consuming more food.');
+  }
   if (paceName === 'fast' && state.morale < 30) {
     warnings.push('Low morale makes fast travel dangerous.');
   }
