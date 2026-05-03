@@ -3,7 +3,7 @@ import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { useGame }      from '../context/GameContext';
 import Button           from '../components/Button';
 import AsciiArt         from '../components/AsciiArt';
-import { colors, MONO } from '../styles';
+import sharedStyles, { colors, MONO } from '../styles';
 import { isMusicEnabled, playTrack } from '../services/musicService';
 
 // ─────────────────────────────────────────────
@@ -71,29 +71,14 @@ export default function MainMenuScreen({ navigation }) {
       />
 
       {/* ── Intro text ──────────────────────── */}
-      <View style={screen.introBox}>
-        <Text style={screen.promptPrefix}>&gt;</Text>
+      <View style={[sharedStyles.panelRow, { marginBottom: 24 }]}>
+        <Text style={sharedStyles.promptPrefix}>&gt;</Text>
         <Text style={screen.introText}>
           The world outside is ash and silence.{'\n'}
           2000 miles of wasteland stand between you and Haven.{'\n'}
           Manage your resources. Make hard choices. Survive.
         </Text>
       </View>
-
-      {/* ── Best runs ───────────────────────── */}
-      {game.bestRuns?.length > 0 && (
-        <View style={screen.bestRunsBox}>
-          <Text style={screen.bestRunsTitle}>PERSONAL BEST</Text>
-          {game.bestRuns.slice(0, 5).map((run, i) => (
-            <View key={i} style={screen.bestRunRow}>
-              <Text style={screen.bestRunRank}>#{i + 1}</Text>
-              <Text style={screen.bestRunText}>
-                {run.distance} mi · Day {run.day} · {run.outcome === 'won' ? 'REACHED HAVEN' : 'FALLEN'}
-              </Text>
-            </View>
-          ))}
-        </View>
-      )}
 
       {/* ── Buttons ─────────────────────────── */}
       <View style={screen.buttons}>
@@ -112,17 +97,10 @@ export default function MainMenuScreen({ navigation }) {
         />
       </View>
 
-      {/* ── How to Play & Settings ──────────── */}
-      <Button
-        label="How to Play"
-        onPress={() => navigation.navigate('HowToPlay')}
-        variant="ghost"
-      />
-      <Button
-        label="Settings"
-        onPress={() => navigation.navigate('Settings')}
-        variant="ghost"
-      />
+      {/* ── Secondary navigation ────────────── */}
+      <Button label="How to Play"  onPress={() => navigation.navigate('HowToPlay')}  variant="ghost" />
+      <Button label="Run History"  onPress={() => navigation.navigate('RunHistory')} variant="ghost" />
+      <Button label="Settings"     onPress={() => navigation.navigate('Settings')}    variant="ghost" />
 
       {/* ── Footer note ─────────────────────── */}
       <Text style={screen.footer}>
@@ -178,63 +156,12 @@ const screen = StyleSheet.create({
     borderColor:       colors.panelBorder,
   },
 
-  introBox: {
-    flexDirection:   'row',
-    alignItems:      'flex-start',
-    backgroundColor: colors.panel,
-    borderWidth:     1,
-    borderColor:     colors.panelBorder,
-    borderRadius:    3,
-    padding:         14,
-    marginBottom:    24,
-    gap:             8,
-  },
-  promptPrefix: {
-    fontFamily: MONO,
-    fontSize:   13,
-    color:      colors.primary,
-    lineHeight: 20,
-    marginTop:  1,
-  },
   introText: {
     flex:       1,
     fontFamily: MONO,
     fontSize:   12,
     color:      colors.secondary,
     lineHeight: 20,
-  },
-
-  bestRunsBox: {
-    backgroundColor: colors.panel,
-    borderWidth:     1,
-    borderColor:     colors.panelBorder,
-    borderRadius:    3,
-    padding:         12,
-    marginBottom:    16,
-  },
-  bestRunsTitle: {
-    fontFamily:    MONO,
-    fontSize:      9,
-    color:         colors.textMuted,
-    letterSpacing: 2,
-    marginBottom:  8,
-  },
-  bestRunRow: {
-    flexDirection: 'row',
-    alignItems:    'center',
-    marginBottom:  4,
-    gap:           8,
-  },
-  bestRunRank: {
-    fontFamily: MONO,
-    fontSize:   10,
-    color:      colors.primary,
-    width:      20,
-  },
-  bestRunText: {
-    fontFamily: MONO,
-    fontSize:   11,
-    color:      colors.secondary,
   },
 
   buttons:  { marginBottom: 8 },

@@ -10,7 +10,7 @@ import SectionDivider    from '../components/SectionDivider';
 import StatGrid          from '../components/StatGrid';
 import AsciiArt          from '../components/AsciiArt';
 import Button            from '../components/Button';
-import { colors, MONO }  from '../styles';
+import sharedStyles, { colors, MONO }  from '../styles';
 
 // ─────────────────────────────────────────────
 // REASON CONFIG
@@ -113,9 +113,9 @@ export default function GameOverScreen({ navigation, route }) {
       </View>
 
       {/* ── Narrative ───────────────────────── */}
-      <View style={screen.textBox}>
-        <Text style={screen.promptPrefix}>&gt;</Text>
-        <Text style={screen.narrativeText}>{config.text}</Text>
+      <View style={[sharedStyles.panelRow, { marginBottom: 20 }]}>
+        <Text style={[sharedStyles.promptPrefix, { color: colors.danger }]}>&gt;</Text>
+        <Text style={sharedStyles.narrativeText}>{config.text}</Text>
       </View>
 
       {/* ── Final stats ─────────────────────── */}
@@ -206,21 +206,6 @@ const screen = StyleSheet.create({
     fontSize:      10,
     letterSpacing: 2,
   },
-
-  textBox: {
-    flexDirection:   'row',
-    alignSelf:       'stretch',
-    alignItems:      'flex-start',
-    backgroundColor: colors.panel,
-    borderWidth:     1,
-    borderColor:     colors.panelBorder,
-    borderRadius:    3,
-    padding:         14,
-    marginBottom:    20,
-    gap:             8,
-  },
-  promptPrefix:  { fontFamily: MONO, fontSize: 13, color: colors.danger, lineHeight: 20, marginTop: 1 },
-  narrativeText: { flex: 1, fontFamily: MONO, fontSize: 13, color: colors.secondary, lineHeight: 22, fontStyle: 'italic' },
 
   // ── Revive section ──
   reviveSection: { alignSelf: 'stretch', marginBottom: 16 },

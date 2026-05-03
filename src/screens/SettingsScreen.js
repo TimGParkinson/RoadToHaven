@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { isMusicEnabled, setMusicEnabled, playTrack } from '../services/musicService';
 import { getPaceInfo, PACE_NAMES } from '../systems/travelSystem';
 import Button from '../components/Button';
-import { colors, MONO } from '../styles';
+import sharedStyles, { colors, MONO } from '../styles';
 
 const PACE_KEY = '@rth_pace_preference';
 
@@ -35,12 +35,12 @@ export default function SettingsScreen({ navigation }) {
     <SafeAreaView style={styles.safe}>
       <ScrollView contentContainerStyle={styles.content}>
 
-        <View style={styles.header}>
-          <Text style={styles.title}>SETTINGS</Text>
+        <View style={sharedStyles.screenHeader}>
+          <Text style={sharedStyles.screenTitle}>SETTINGS</Text>
         </View>
 
         {/* ── Music ───────────────────────────── */}
-        <Text style={styles.sectionLabel}>MUSIC</Text>
+        <Text style={sharedStyles.sectionLabel}>MUSIC</Text>
         <View style={styles.panel}>
           <TouchableOpacity style={styles.row} onPress={toggleMusic}>
             <Text style={styles.rowLabel}>Background Music</Text>
@@ -51,7 +51,7 @@ export default function SettingsScreen({ navigation }) {
         </View>
 
         {/* ── Travel Pace ─────────────────────── */}
-        <Text style={styles.sectionLabel}>DEFAULT TRAVEL PACE</Text>
+        <Text style={sharedStyles.sectionLabel}>DEFAULT TRAVEL PACE</Text>
         <View style={styles.panel}>
           <Text style={styles.paceHint}>
             Sets the pace used each time you travel. You can change this any time.
@@ -89,28 +89,6 @@ export default function SettingsScreen({ navigation }) {
 const styles = StyleSheet.create({
   safe:    { flex: 1, backgroundColor: colors.background },
   content: { padding: 20, paddingBottom: 40 },
-
-  header: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.panelBorder,
-    paddingBottom:     12,
-    marginBottom:      24,
-  },
-  title: {
-    fontFamily:    MONO,
-    fontSize:      18,
-    fontWeight:    'bold',
-    color:         colors.primary,
-    letterSpacing: 3,
-  },
-
-  sectionLabel: {
-    fontFamily:    MONO,
-    fontSize:      9,
-    color:         colors.textMuted,
-    letterSpacing: 2,
-    marginBottom:  8,
-  },
 
   panel: {
     backgroundColor: colors.panel,

@@ -9,7 +9,7 @@ import SectionDivider                                            from '../compon
 import AsciiArt                                                  from '../components/AsciiArt';
 import Button                                                    from '../components/Button';
 import ResourceBar                                               from '../components/ResourceBar';
-import { colors, MONO }                                          from '../styles';
+import sharedStyles, { colors, MONO }                            from '../styles';
 
 // ─────────────────────────────────────────────
 // HELPERS
@@ -97,8 +97,8 @@ export default function EventScreen({ navigation, route }) {
       )}
 
       {/* ── Event narrative ─────────────────── */}
-      <View style={screen.textBox}>
-        <Text style={screen.promptPrefix}>&gt;</Text>
+      <View style={sharedStyles.panelRow}>
+        <Text style={sharedStyles.promptPrefix}>&gt;</Text>
         <Text style={screen.eventText}>{event.text}</Text>
       </View>
 
@@ -143,8 +143,8 @@ export default function EventScreen({ navigation, route }) {
       {outcome && (
         <View style={screen.outcomeBox}>
 
-          <View style={screen.textBox}>
-            <Text style={screen.promptPrefix}>&gt;</Text>
+          <View style={sharedStyles.panelRow}>
+            <Text style={sharedStyles.promptPrefix}>&gt;</Text>
             <Text style={screen.outcomeText}>{outcome.text}</Text>
           </View>
 
@@ -194,24 +194,6 @@ const screen = StyleSheet.create({
     marginBottom:      4,
   },
 
-  textBox: {
-    flexDirection:   'row',
-    alignItems:      'flex-start',
-    backgroundColor: colors.panel,
-    borderWidth:     1,
-    borderColor:     colors.panelBorder,
-    borderRadius:    3,
-    padding:         12,
-    marginBottom:    16,
-    gap:             8,
-  },
-  promptPrefix: {
-    fontFamily: MONO,
-    fontSize:   13,
-    color:      colors.primary,
-    lineHeight: 20,
-    marginTop:  1,
-  },
   eventText: {
     flex:       1,
     fontFamily: MONO,

@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Button from '../components/Button';
-import { colors, MONO } from '../styles';
+import sharedStyles, { colors, MONO } from '../styles';
 
 const SECTIONS = [
   {
@@ -43,8 +43,8 @@ export default function HowToPlayScreen({ navigation }) {
     <SafeAreaView style={styles.safe}>
       <ScrollView contentContainerStyle={styles.content}>
 
-        <View style={styles.header}>
-          <Text style={styles.title}>HOW TO PLAY</Text>
+        <View style={sharedStyles.screenHeader}>
+          <Text style={sharedStyles.screenTitle}>HOW TO PLAY</Text>
         </View>
 
         {SECTIONS.map(s => (
@@ -64,20 +64,6 @@ export default function HowToPlayScreen({ navigation }) {
 const styles = StyleSheet.create({
   safe:    { flex: 1, backgroundColor: colors.background },
   content: { padding: 20, paddingBottom: 40 },
-
-  header: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.panelBorder,
-    paddingBottom:     12,
-    marginBottom:      20,
-  },
-  title: {
-    fontFamily:    MONO,
-    fontSize:      18,
-    fontWeight:    'bold',
-    color:         colors.primary,
-    letterSpacing: 3,
-  },
 
   section: {
     marginBottom:    20,

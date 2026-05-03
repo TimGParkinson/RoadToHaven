@@ -388,9 +388,60 @@ const styles = StyleSheet.create({
   // ">" prompt prefix
   promptPrefix: {
     fontFamily: MONO,
-    fontSize: fonts.base,
+    fontSize: 13,
     color: colors.primary,
+    lineHeight: 20,
+    marginTop: 1,
     marginRight: 8,
+  },
+
+  // Panel with horizontal layout — narrative boxes, intro text
+  panelRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    backgroundColor: colors.panel,
+    borderWidth: 1,
+    borderColor: colors.panelBorder,
+    borderRadius: 3,
+    padding: 14,
+    gap: 8,
+    marginBottom: 16,
+  },
+
+  // Screen section header with bottom border (HowToPlay, Settings, RunHistory)
+  screenHeader: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.panelBorder,
+    paddingBottom: 12,
+    marginBottom: 20,
+  },
+
+  // Screen title used inside screenHeader
+  screenTitle: {
+    fontFamily: MONO,
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.primary,
+    letterSpacing: 3,
+  },
+
+  // Small uppercase section label
+  sectionLabel: {
+    fontFamily: MONO,
+    fontSize: fonts.xs,
+    color: colors.textMuted,
+    letterSpacing: 2,
+    marginBottom: 8,
+  },
+
+  // Italic narrative body text (event outcomes, flavour)
+  narrativeText: {
+    flex: 1,
+    fontFamily: MONO,
+    fontSize: 13,
+    color: colors.secondary,
+    lineHeight: 22,
+    fontStyle: 'italic',
   },
   promptRow: {
     flexDirection: 'row',

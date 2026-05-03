@@ -7,7 +7,7 @@ import TerminalHeader from '../components/TerminalHeader';
 import StatGrid       from '../components/StatGrid';
 import AsciiArt       from '../components/AsciiArt';
 import Button         from '../components/Button';
-import { colors, MONO } from '../styles';
+import sharedStyles, { colors, MONO } from '../styles';
 
 // ─────────────────────────────────────────────
 // ART
@@ -61,9 +61,9 @@ export default function WinScreen({ navigation }) {
       </View>
 
       {/* ── Narrative ───────────────────────── */}
-      <View style={screen.textBox}>
-        <Text style={screen.promptPrefix}>&gt;</Text>
-        <Text style={screen.narrativeText}>
+      <View style={[sharedStyles.panelRow, { marginBottom: 20 }]}>
+        <Text style={sharedStyles.promptPrefix}>&gt;</Text>
+        <Text style={sharedStyles.narrativeText}>
           The gates of Haven open before you. After {game.day} days on the
           road — through storms, ambushes, and impossible odds — your group
           has made it. {rating.text}
@@ -150,34 +150,6 @@ const screen = StyleSheet.create({
     fontFamily:    MONO,
     fontSize:      10,
     letterSpacing: 2,
-  },
-
-  textBox: {
-    flexDirection:   'row',
-    alignSelf:       'stretch',
-    alignItems:      'flex-start',
-    backgroundColor: colors.panel,
-    borderWidth:     1,
-    borderColor:     colors.panelBorder,
-    borderRadius:    3,
-    padding:         14,
-    marginBottom:    20,
-    gap:             8,
-  },
-  promptPrefix: {
-    fontFamily: MONO,
-    fontSize:   13,
-    color:      colors.primary,
-    lineHeight: 20,
-    marginTop:  1,
-  },
-  narrativeText: {
-    flex:       1,
-    fontFamily: MONO,
-    fontSize:   13,
-    color:      colors.secondary,
-    lineHeight: 22,
-    fontStyle:  'italic',
   },
 
   button: { alignSelf: 'stretch' },
