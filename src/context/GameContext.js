@@ -14,6 +14,7 @@ export const INITIAL_STATE = {
   morale:     75,
   survivors:  4,
   hasRevived: false, // true once the player uses the revive ad — locked for the run
+  bestRuns:   [],   // [{ day, distance, outcome }] max 5, sorted by distance desc
 };
 
 export const TOTAL_DISTANCE = 2000;
@@ -31,6 +32,7 @@ const ACTIONS = {
   MODIFY_STAT:   'MODIFY_STAT',
   APPLY_CHANGES: 'APPLY_CHANGES',
   MARK_REVIVED:  'MARK_REVIVED',
+  SAVE_BEST_RUN: 'SAVE_BEST_RUN',
   RESET:         'RESET',
   LOAD_STATE:    'LOAD_STATE',
 };
@@ -79,11 +81,19 @@ function gameReducer(state, action) {
     case ACTIONS.MARK_REVIVED:
       return { ...state, hasRevived: true };
 
+    case ACTIONS.SAVE_BEST_RUN: {
+      const entry    = action.entry;
+      const updated  = [...(state.bestRuns ?? []), entry]
+        .sort((a, b) => b.distance - a.distance)
+        .slice(0, 5);
+      return { ...state, bestRuns: updated };
+    }
+
     case ACTIONS.LOAD_STATE:
       return { ...INITIAL_STATE, ...action.state };
 
     case ACTIONS.RESET:
-      return { ...INITIAL_STATE };
+      return { ...INITIAL_STATE, bestRuns: state.bestRuns ?? [] };
 
     default:
       return state;
@@ -122,6 +132,13 @@ export function GameProvider({ children }) {
   function applyChanges(changes)     { dispatch({ type: ACTIONS.APPLY_CHANGES, changes }); }
   function markRevived()             { dispatch({ type: ACTIONS.MARK_REVIVED }); }
 
+  function recordRun(outcome) {
+    dispatch({
+      type:  ACTIONS.SAVE_BEST_RUN,
+      entry: { day: state.day, distance: state.distance, outcome },
+    });
+  }
+
   async function resetGame() {
     try {
       await deleteSave();
@@ -149,6 +166,7 @@ export function GameProvider({ children }) {
     modifyStat,
     applyChanges,
     markRevived,
+    recordRun,
     resetGame,
   };
 

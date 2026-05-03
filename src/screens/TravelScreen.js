@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet }      from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useGame }          from '../context/GameContext';
-import { travel }           from '../systems/travelSystem';
+
+const PACE_KEY = '@rth_pace_preference';
+import { travel, getPaceInfo, PACE_NAMES } from '../systems/travelSystem';
 import { getRandomEvent }   from '../systems/eventSystem';
 import { useRewardedAd }    from '../services/adService';
 import { playTrack }        from '../services/musicService';
@@ -71,6 +74,13 @@ export default function TravelScreen({ navigation }) {
   const [delta,            setDelta]            = useState('');
   const [scavengeStreak,   setScavengeStreak]   = useState(0);
   const [restLocked,       setRestLocked]       = useState(false);
+  const [pace,             setPace]             = useState('normal');
+
+  useEffect(() => {
+    AsyncStorage.getItem(PACE_KEY).then(saved => {
+      if (saved) setPace(saved);
+    });
+  }, []);
 
   const MAX_SCAVENGE_STREAK = 2;
   const scavengeLocked = scavengeStreak >= MAX_SCAVENGE_STREAK;
@@ -163,7 +173,7 @@ export default function TravelScreen({ navigation }) {
   // ── Main actions ─────────────────────────────
   function handleTravel() {
     const state  = { food: game.food, fuel: game.fuel, morale: game.morale };
-    const result = travel(state, 'normal');
+    const result = travel(state, pace);
 
     if (!result.canTravel) {
       setLog(`> ${result.blockedReason}`);
@@ -288,6 +298,26 @@ export default function TravelScreen({ navigation }) {
         </View>
       )}
 
+      {/* ── Pace selector ───────────────────── */}
+      <View style={screen.paceRow}>
+        {PACE_NAMES.map(p => {
+          const info    = getPaceInfo(p);
+          const active  = pace === p;
+          return (
+            <TouchableOpacity
+              key={p}
+              style={[screen.paceButton, active && screen.paceButtonActive]}
+              onPress={() => { setPace(p); AsyncStorage.setItem(PACE_KEY, p); }}
+            >
+              <Text style={[screen.paceLabel, active && screen.paceLabelActive]}>
+                {info.label.toUpperCase()}
+              </Text>
+              <Text style={screen.paceMeta}>{info.milesRange}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+
       {/* ── Main actions ────────────────────── */}
       <View style={screen.actions}>
         <Button label="Travel"   onPress={handleTravel}   variant={travelBlocked ? 'dim' : 'primary'} disabled={travelBlocked} />
@@ -333,6 +363,9 @@ export default function TravelScreen({ navigation }) {
             />
           )}
 
+          {adsWatched.current === MAX_ADS_PER_RUN - 1 && (
+            <Text style={screen.adWarning}>! 1 boost remaining this run</Text>
+          )}
           <Text style={screen.adMeta}>
             Optional · {adsWatched.current}/{MAX_ADS_PER_RUN} used this run
           </Text>
@@ -391,11 +424,51 @@ const screen = StyleSheet.create({
   warningBox:  { borderLeftWidth: 3, borderLeftColor: colors.warning, paddingLeft: 10, paddingVertical: 6, marginBottom: 6, gap: 4 },
   warningText: { fontFamily: MONO, fontSize: 11, color: colors.warning, letterSpacing: 1 },
 
+  paceRow: {
+    flexDirection:  'row',
+    gap:            6,
+    marginBottom:   8,
+  },
+  paceButton: {
+    flex:            1,
+    backgroundColor: colors.panel,
+    borderWidth:     1,
+    borderColor:     colors.panelBorder,
+    borderRadius:    3,
+    paddingVertical: 8,
+    alignItems:      'center',
+  },
+  paceButtonActive: {
+    borderColor: colors.primary,
+  },
+  paceLabel: {
+    fontFamily:    MONO,
+    fontSize:      11,
+    fontWeight:    'bold',
+    color:         colors.textMuted,
+    letterSpacing: 1,
+  },
+  paceLabelActive: { color: colors.primary },
+  paceMeta: {
+    fontFamily: MONO,
+    fontSize:   9,
+    color:      colors.dim,
+    marginTop:  2,
+  },
+
   actions: { marginTop: 8 },
   scavengeLockText: { fontFamily: MONO, fontSize: 10, color: colors.warning, letterSpacing: 1, marginTop: -6, marginBottom: 6, paddingLeft: 4 },
   storeHintText:    { fontFamily: MONO, fontSize: 10, color: colors.primary,  letterSpacing: 1, marginTop: -6, marginBottom: 6, paddingLeft: 4 },
 
   adSection: { marginTop: 20 },
+  adWarning: {
+    fontFamily:  MONO,
+    fontSize:    10,
+    color:       colors.warning,
+    textAlign:   'center',
+    letterSpacing: 1,
+    marginBottom: 4,
+  },
   adMeta: {
     fontFamily:    MONO,
     fontSize:      10,

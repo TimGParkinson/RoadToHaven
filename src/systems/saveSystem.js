@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SAVE_KEY     = '@road_to_haven:save';
-const SAVE_VERSION = 1; // bump this when INITIAL_STATE shape changes
+const SAVE_VERSION = 2; // bump this when INITIAL_STATE shape changes
 
 // ─────────────────────────────────────────────
 // saveGame

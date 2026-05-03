@@ -27,7 +27,10 @@ export default function WinScreen({ navigation }) {
   const game   = useGame();
   const rating = getPerformanceRating(game);
 
-  useEffect(() => { stopMusic(); }, []);
+  useEffect(() => {
+    stopMusic();
+    game.recordRun('won');
+  }, []);
 
   async function handlePlayAgain() {
     await game.resetGame();

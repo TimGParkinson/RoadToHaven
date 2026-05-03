@@ -61,7 +61,10 @@ export default function GameOverScreen({ navigation, route }) {
 
   const [reviveEarned, setReviveEarned] = useState(false);
 
-  useEffect(() => { playTrack('gameover'); }, []);
+  useEffect(() => {
+    playTrack('gameover');
+    game.recordRun('died');
+  }, []);
 
   // ── Rewarded ad ─────────────────────────────
   const reviveAd = useRewardedAd('revive', (cfg) => {

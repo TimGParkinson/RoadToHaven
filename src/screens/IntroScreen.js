@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { playTrack } from '../services/musicService';
+
+const INTRO_SEEN_KEY = '@rth_intro_seen';
 import {
   Pressable,
   ScrollView,
@@ -51,12 +54,18 @@ export default function IntroScreen({ navigation }) {
   const [displayed, setDisplayed]   = useState('');
   const [typingDone, setTypingDone] = useState(false);
   const [cursorOn, setCursorOn]     = useState(true);
+  const [hasSeenIntro, setHasSeenIntro] = useState(false);
 
   const indexRef    = useRef(0);
   const intervalRef = useRef(null);
   const scrollRef   = useRef(null);
 
-  useEffect(() => { playTrack('tense'); }, []);
+  useEffect(() => {
+    playTrack('tense');
+    AsyncStorage.getItem(INTRO_SEEN_KEY).then(val => {
+      if (val === 'true') setHasSeenIntro(true);
+    });
+  }, []);
 
   // ── Typewriter ────────────────────────────
   useEffect(() => {
@@ -87,14 +96,18 @@ export default function IntroScreen({ navigation }) {
   }, [displayed]);
 
   // ── Tap handler ───────────────────────────
+  function goToMenu() {
+    AsyncStorage.setItem(INTRO_SEEN_KEY, 'true');
+    navigation.replace('MainMenu');
+  }
+
   function handleTap() {
     if (!typingDone) {
-      // First tap: skip to end
       clearInterval(intervalRef.current);
       setDisplayed(FULL_TEXT);
       setTypingDone(true);
     } else {
-      navigation.replace('MainMenu');
+      goToMenu();
     }
   }
 
@@ -122,7 +135,9 @@ export default function IntroScreen({ navigation }) {
         {/* ── Bottom prompt ───────────────── */}
         <View style={styles.footer}>
           {typingDone ? (
-            <Button label="Continue" onPress={handleTap} variant="primary" />
+            <Button label="Continue" onPress={goToMenu} variant="primary" />
+          ) : hasSeenIntro ? (
+            <Button label="Skip" onPress={goToMenu} variant="secondary" />
           ) : (
             <Text style={styles.hint}>TAP TO SKIP</Text>
           )}

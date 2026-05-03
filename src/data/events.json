@@ -1029,6 +1029,7 @@
   "id": "night_attack",
   "title": "Night Attack",
   "weight": 2,
+  "requires": { "survivors": 2 },
   "text": "Screams tear through the night. Shapes move just beyond the firelight. Something — or someone — is attacking.",
   "art": "  ***  \n (!!!) \n  / \\  ",
   "choices": [
@@ -1056,6 +1057,7 @@
   "id": "sniper_fire",
   "title": "Sniper Fire",
   "weight": 1,
+  "requires": { "survivors": 2 },
   "text": "A shot cracks. Then another. Someone is picking you off from a distance.",
   "art": "  --*  \n   /\\  ",
   "choices": [
@@ -1412,6 +1414,391 @@
       "outcome": {
         "text": "You keep moving. Nobody meets each other's eyes. The road behind you feels longer than it should.",
         "changes": { "morale": -15 }
+      }
+    }
+  ]
+},
+{
+  "id": "disease_outbreak",
+  "title": "Disease Outbreak",
+  "weight": 2,
+  "text": "Someone woke up with a fever. By midday, two more are sick. Whatever it is, it's moving through the group fast.",
+  "choices": [
+    {
+      "id": "treat",
+      "label": "Use medicine to contain it",
+      "requires": { "medicine": 20 },
+      "outcome": {
+        "text": "You isolate the sick and push through your supplies. Three days later, the fever breaks. It cost you, but no one was lost.",
+        "changes": { "medicine": -20, "morale": 5 }
+      }
+    },
+    {
+      "id": "ration_medicine",
+      "label": "Ration what little you have",
+      "requires": { "medicine": 8 },
+      "outcome": {
+        "text": "Not enough to stop it — only slow it. The group recovers slowly, but morale is shattered.",
+        "changes": { "medicine": -8, "morale": -20, "food": -10 }
+      }
+    },
+    {
+      "id": "push_through",
+      "label": "Push on and hope it passes",
+      "requires": null,
+      "outcome": {
+        "text": "You keep moving. Some recover on their own. Others don't fully — the exhaustion lingers for days.",
+        "changes": { "morale": -30, "food": -15 }
+      }
+    }
+  ]
+},
+{
+  "id": "vehicle_breakdown",
+  "title": "Engine Failure",
+  "weight": 3,
+  "text": "A grinding noise from under the hood. Then smoke. Then silence. You're stopped on the open road with whatever tools you have.",
+  "choices": [
+    {
+      "id": "fix_it",
+      "label": "Strip scrap and repair it",
+      "requires": { "scrap": 12 },
+      "outcome": {
+        "text": "Two hours of cursing and bruised knuckles later, the engine coughs back to life. Good enough.",
+        "changes": { "scrap": -12, "morale": 10 }
+      }
+    },
+    {
+      "id": "patch_it",
+      "label": "Patch it and limp forward",
+      "requires": { "scrap": 5 },
+      "outcome": {
+        "text": "A crude fix. It'll hold — for now. You lose distance but stay moving.",
+        "changes": { "scrap": -5, "fuel": -8, "morale": -10 }
+      }
+    },
+    {
+      "id": "abandon",
+      "label": "Strip what you can and abandon it",
+      "requires": null,
+      "outcome": {
+        "text": "You salvage what's left and continue on foot. Slow going. The road feels much longer now.",
+        "changes": { "scrap": 8, "fuel": -20, "morale": -25 }
+      }
+    }
+  ]
+},
+{
+  "id": "flash_flood",
+  "title": "Flash Flood",
+  "weight": 2,
+  "text": "The sky opens. Within minutes, the road ahead is a river of brown water carrying debris. There's no outrunning it.",
+  "choices": [
+    {
+      "id": "high_ground",
+      "label": "Drive to higher ground and wait",
+      "requires": { "fuel": 8 },
+      "outcome": {
+        "text": "You find a ridge and wait it out. The delay costs you time and fuel, but everyone stays dry.",
+        "changes": { "fuel": -8, "morale": -5 }
+      }
+    },
+    {
+      "id": "push_through_flood",
+      "label": "Push through before it gets worse",
+      "requires": null,
+      "outcome": {
+        "text": "The water is deeper than it looked. You make it — barely — but supplies get soaked and the engine runs rough for days.",
+        "changes": { "food": -15, "morale": -20, "medicine": -5 }
+      }
+    }
+  ]
+},
+{
+  "id": "rival_convoy",
+  "title": "Rival Convoy",
+  "weight": 2,
+  "text": "A larger group has set up a checkpoint on the only passable road. They're not shooting — yet. Their leader approaches with a smirk. \"Toll road.\"",
+  "choices": [
+    {
+      "id": "pay_toll",
+      "label": "Pay the toll",
+      "requires": { "food": 25 },
+      "outcome": {
+        "text": "You hand over the supplies without a fight. They wave you through. You hate them for it.",
+        "changes": { "food": -25, "morale": -10 }
+      }
+    },
+    {
+      "id": "negotiate",
+      "label": "Negotiate — offer scrap instead",
+      "requires": { "scrap": 15 },
+      "outcome": {
+        "text": "They're surprised you have something they actually want. A deal is struck. You move on.",
+        "changes": { "scrap": -15, "morale": 5 }
+      }
+    },
+    {
+      "id": "find_detour",
+      "label": "Find a way around",
+      "requires": { "fuel": 15 },
+      "outcome": {
+        "text": "You backtrack two hours and find a crumbling overpass. Risky, but it holds. No toll paid.",
+        "changes": { "fuel": -15, "morale": 10 }
+      }
+    }
+  ]
+},
+{
+  "id": "abandoned_radio",
+  "title": "Signal on the Radio",
+  "weight": 3,
+  "text": "Static. Then a voice — a pre-recorded broadcast, looping from somewhere nearby. Music. Old music, playing into empty air. Someone left it running.",
+  "choices": [
+    {
+      "id": "listen",
+      "label": "Stop and listen for a while",
+      "requires": null,
+      "outcome": {
+        "text": "Nobody speaks. You just sit there and listen until the song ends. It's the most human thing you've heard in weeks.",
+        "changes": { "morale": 25 }
+      }
+    },
+    {
+      "id": "keep_moving",
+      "label": "It's a distraction — keep moving",
+      "requires": null,
+      "outcome": {
+        "text": "You tune it out. The road doesn't care about music.",
+        "changes": {}
+      }
+    }
+  ]
+},
+{
+  "id": "child_survivor",
+  "title": "Child Alone",
+  "weight": 1,
+  "requires": { "provisions": 20 },
+  "text": "A child — no more than eight — stands in the middle of the road, clutching a stuffed animal. No adults in sight. No tracks. No explanation.",
+  "choices": [
+    {
+      "id": "take_them_in",
+      "label": "Take them with you",
+      "requires": { "food": 20 },
+      "outcome": {
+        "text": "They don't speak for hours. But by nightfall they're eating your food and watching the road ahead with wide, serious eyes. One more mouth. One more reason to make it.",
+        "changes": { "food": -20, "morale": 15, "survivors": 1 }
+      }
+    },
+    {
+      "id": "leave_supplies",
+      "label": "Leave supplies and direct them to safety",
+      "requires": { "food": 10 },
+      "outcome": {
+        "text": "You give them what you can and point them toward the settlement you passed two days back. It's the best you can do.",
+        "changes": { "food": -10, "morale": -10 }
+      }
+    },
+    {
+      "id": "cant_help",
+      "label": "You can't take on another mouth",
+      "requires": null,
+      "outcome": {
+        "text": "You drive past. Nobody looks back. Nobody talks about it.",
+        "changes": { "morale": -25 }
+      }
+    }
+  ]
+},
+{
+  "id": "desperate_merchant",
+  "title": "Desperate Seller",
+  "weight": 2,
+  "text": "A gaunt man flags you down from the roadside. His cart is overloaded — too much for one person to move. \"I just need to get rid of it. Half price. Please.\"",
+  "choices": [
+    {
+      "id": "buy_food",
+      "label": "Buy his food stores",
+      "requires": { "scrap": 8 },
+      "outcome": {
+        "text": "You trade scrap for more food than you expected. He looks relieved to be rid of the weight.",
+        "changes": { "scrap": -8, "food": 35 }
+      }
+    },
+    {
+      "id": "buy_fuel",
+      "label": "Buy his fuel canisters",
+      "requires": { "scrap": 10 },
+      "outcome": {
+        "text": "Two full canisters, barely used. You load them up without haggling.",
+        "changes": { "scrap": -10, "fuel": 30 }
+      }
+    },
+    {
+      "id": "walk_on",
+      "label": "Something about this feels wrong — move on",
+      "requires": null,
+      "outcome": {
+        "text": "Could've been a trap. Could've been legitimate. You'll never know.",
+        "changes": {}
+      }
+    }
+  ]
+},
+{
+  "id": "landslide",
+  "title": "Landslide",
+  "weight": 2,
+  "text": "The hillside gives way without warning. Boulders and mud swallow the road ahead. You're not getting through that — not directly.",
+  "choices": [
+    {
+      "id": "clear_route",
+      "label": "Use scrap to lever a path through",
+      "requires": { "scrap": 10 },
+      "outcome": {
+        "text": "It takes hours and ruins your tools. But you clear just enough of a gap to squeeze through.",
+        "changes": { "scrap": -10, "morale": -10 }
+      }
+    },
+    {
+      "id": "long_detour",
+      "label": "Take the long way around",
+      "requires": { "fuel": 20 },
+      "outcome": {
+        "text": "A two-hour detour through broken back roads. The fuel cost stings, but the vehicle survives.",
+        "changes": { "fuel": -20, "morale": -5 }
+      }
+    },
+    {
+      "id": "wait_it_out",
+      "label": "Camp and wait for it to settle",
+      "requires": null,
+      "outcome": {
+        "text": "You lose a full day waiting for the dust to settle. The road isn't much better, but it's passable.",
+        "changes": { "food": -12, "morale": -15 }
+      }
+    }
+  ]
+},
+{
+  "id": "frostbitten_night",
+  "title": "Bitter Cold",
+  "weight": 3,
+  "text": "The temperature drops without warning. By midnight it's brutal. Someone wakes up unable to feel their fingers. The cold out here doesn't care if you're moving.",
+  "choices": [
+    {
+      "id": "treat_frostbite",
+      "label": "Treat the frostbite with medicine",
+      "requires": { "medicine": 10 },
+      "outcome": {
+        "text": "You wrap the wounds and keep the patient warm through the rest of the night. They'll recover.",
+        "changes": { "medicine": -10, "morale": 5 }
+      }
+    },
+    {
+      "id": "burn_fuel_for_heat",
+      "label": "Run the engine for heat through the night",
+      "requires": { "fuel": 10 },
+      "outcome": {
+        "text": "It costs fuel, but everyone makes it to morning in one piece.",
+        "changes": { "fuel": -10, "morale": 5 }
+      }
+    },
+    {
+      "id": "endure",
+      "label": "Huddle together and endure it",
+      "requires": null,
+      "outcome": {
+        "text": "A miserable night. Nobody slept. Two people are moving stiffly come dawn.",
+        "changes": { "morale": -20, "medicine": -5 }
+      }
+    }
+  ]
+},
+{
+  "id": "booby_trapped_cache",
+  "title": "Suspicious Cache",
+  "weight": 2,
+  "text": "A supply crate sits in the middle of the road, lid ajar, contents visible from a distance. No footprints. No people. It's either luck or a trap.",
+  "choices": [
+    {
+      "id": "disarm_and_take",
+      "label": "Approach carefully and disarm it",
+      "requires": { "scrap": 5 },
+      "outcome": {
+        "text": "You find the tripwire and disable it with a bit of wire. The crate holds food and medicine — someone's abandoned stash.",
+        "changes": { "scrap": -5, "food": 20, "medicine": 10, "morale": 15 }
+      }
+    },
+    {
+      "id": "grab_and_run",
+      "label": "Grab what you can and move fast",
+      "requires": null,
+      "outcome": {
+        "text": "You snatch the top layer and sprint. Something clicks behind you. The blast is distant enough not to hurt anyone — but it rattles everyone.",
+        "changes": { "food": 10, "morale": -15 }
+      }
+    },
+    {
+      "id": "leave_it",
+      "label": "Leave it — not worth the risk",
+      "requires": null,
+      "outcome": {
+        "text": "You drive around it without touching anything. Smart or cowardly — you're not sure which.",
+        "changes": {}
+      }
+    }
+  ]
+},
+{
+  "id": "fever_in_camp",
+  "title": "Fever in Camp",
+  "weight": 3,
+  "text": "You wake to find one of your group drenched in sweat, burning up. They say they're fine. They're not fine.",
+  "choices": [
+    {
+      "id": "treat_fever",
+      "label": "Rest and treat with medicine",
+      "requires": { "medicine": 12 },
+      "outcome": {
+        "text": "A full day of rest and medication. They recover, colour returning to their face by morning.",
+        "changes": { "medicine": -12, "morale": 10 }
+      }
+    },
+    {
+      "id": "keep_moving_sick",
+      "label": "Keep moving — they'll manage",
+      "requires": null,
+      "outcome": {
+        "text": "They manage. But they're pale and quiet for days. The others notice.",
+        "changes": { "morale": -15, "food": -8 }
+      }
+    }
+  ]
+},
+{
+  "id": "lucky_find",
+  "title": "Lucky Find",
+  "weight": 2,
+  "text": "You nearly drive past it — a partially buried storage container, half-collapsed, half-intact. Whoever left it here never came back.",
+  "choices": [
+    {
+      "id": "search_thoroughly",
+      "label": "Take the time to search it properly",
+      "requires": null,
+      "outcome": {
+        "text": "An hour of digging and shifting turns up canned food, a fuel canister, and a sealed medicine box. Today was a good day.",
+        "changes": { "food": 20, "fuel": 15, "medicine": 8, "morale": 20 }
+      }
+    },
+    {
+      "id": "quick_grab",
+      "label": "Grab the obvious stuff and keep moving",
+      "requires": null,
+      "outcome": {
+        "text": "You take what's visible and get back on the road. Probably left better things behind, but you're moving.",
+        "changes": { "food": 12, "fuel": 8 }
       }
     }
   ]

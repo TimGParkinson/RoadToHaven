@@ -91,6 +91,21 @@ export default function MainMenuScreen({ navigation }) {
         </Text>
       </View>
 
+      {/* ── Best runs ───────────────────────── */}
+      {game.bestRuns?.length > 0 && (
+        <View style={screen.bestRunsBox}>
+          <Text style={screen.bestRunsTitle}>PERSONAL BEST</Text>
+          {game.bestRuns.slice(0, 3).map((run, i) => (
+            <View key={i} style={screen.bestRunRow}>
+              <Text style={screen.bestRunRank}>#{i + 1}</Text>
+              <Text style={screen.bestRunText}>
+                {run.distance} mi · Day {run.day} · {run.outcome === 'won' ? 'REACHED HAVEN' : 'FALLEN'}
+              </Text>
+            </View>
+          ))}
+        </View>
+      )}
+
       {/* ── Buttons ─────────────────────────── */}
       <View style={screen.buttons}>
         {hasMidRun && (
@@ -107,6 +122,13 @@ export default function MainMenuScreen({ navigation }) {
           variant={hasMidRun ? 'secondary' : 'primary'}
         />
       </View>
+
+      {/* ── How to Play ─────────────────────── */}
+      <Button
+        label="How to Play"
+        onPress={() => navigation.navigate('HowToPlay')}
+        variant="ghost"
+      />
 
       {/* ── Footer note ─────────────────────── */}
       <Text style={screen.footer}>
@@ -189,6 +211,39 @@ const screen = StyleSheet.create({
     fontSize:   12,
     color:      colors.secondary,
     lineHeight: 20,
+  },
+
+  bestRunsBox: {
+    backgroundColor: colors.panel,
+    borderWidth:     1,
+    borderColor:     colors.panelBorder,
+    borderRadius:    3,
+    padding:         12,
+    marginBottom:    16,
+  },
+  bestRunsTitle: {
+    fontFamily:    MONO,
+    fontSize:      9,
+    color:         colors.textMuted,
+    letterSpacing: 2,
+    marginBottom:  8,
+  },
+  bestRunRow: {
+    flexDirection: 'row',
+    alignItems:    'center',
+    marginBottom:  4,
+    gap:           8,
+  },
+  bestRunRank: {
+    fontFamily: MONO,
+    fontSize:   10,
+    color:      colors.primary,
+    width:      20,
+  },
+  bestRunText: {
+    fontFamily: MONO,
+    fontSize:   11,
+    color:      colors.secondary,
   },
 
   buttons:  { marginBottom: 8 },
