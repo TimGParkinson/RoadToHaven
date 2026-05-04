@@ -1,4 +1,4 @@
-import { useState, useEffect }  from 'react';
+import { useState, useEffect, useMemo }  from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import { useGame }                                              from '../context/GameContext';
@@ -10,19 +10,11 @@ import AsciiArt                                                  from '../compon
 import Button                                                    from '../components/Button';
 import ResourceBar                                               from '../components/ResourceBar';
 import sharedStyles, { colors, MONO }                            from '../styles';
+import { formatChanges }                                         from '../utils/formatting';
 
 // ─────────────────────────────────────────────
 // HELPERS
 // ─────────────────────────────────────────────
-
-// Format a changes object → "-10 FOOD   +15 MORALE"
-function formatChanges(changes) {
-  const entries = Object.entries(changes);
-  if (entries.length === 0) return 'NO CHANGE';
-  return entries
-    .map(([k, v]) => `${v > 0 ? '+' : ''}${v} ${k.toUpperCase()}`)
-    .join('   ');
-}
 
 // Return a variant string based on net change
 function changeVariant(changes) {
@@ -42,6 +34,11 @@ export default function EventScreen({ navigation, route }) {
   // null = choosing; object = outcome after a choice was made
   const [outcome, setOutcome] = useState(null);
 
+  const gameState = useMemo(() => ({
+    food: game.food, fuel: game.fuel, medicine: game.medicine,
+    scrap: game.scrap, morale: game.morale, survivors: game.survivors,
+  }), [game.food, game.fuel, game.medicine, game.scrap, game.morale, game.survivors]);
+
   // ── Win / death watchers ─────────────────────
   useEffect(() => {
     if (game.hasWon) navigation.replace('Win');
@@ -56,7 +53,7 @@ export default function EventScreen({ navigation, route }) {
 
   // ── Handle a choice tap ─────────────────────
   function handleChoice(choiceId) {
-    const state  = { food: game.food, fuel: game.fuel, medicine: game.medicine, scrap: game.scrap, morale: game.morale, survivors: game.survivors };
+    const state  = gameState;
     const result = resolveChoice(event, choiceId, state);
     if (!result.success) return; // button was disabled — guard anyway
     game.applyChanges(result.changes);
@@ -74,14 +71,12 @@ export default function EventScreen({ navigation, route }) {
       {/* ── Terminal header ─────────────────── */}
       <TerminalHeader label="// INCIDENT LOG" />
 
-      {/* ── Resource bar (trader events only) ── */}
-      {event.id === 'wandering_trader' && (
-        <ResourceBar
-          food={game.food} fuel={game.fuel} medicine={game.medicine}
-          scrap={game.scrap} morale={game.morale} survivors={game.survivors}
-          style={{ marginBottom: 8 }}
-        />
-      )}
+      {/* ── Resource bar — always shown so players can assess choices ── */}
+      <ResourceBar
+        food={game.food} fuel={game.fuel} medicine={game.medicine}
+        scrap={game.scrap} morale={game.morale} survivors={game.survivors}
+        style={{ marginBottom: 8 }}
+      />
 
       {/* ── Event title ─────────────────────── */}
       <Text style={screen.title}>{event.title.toUpperCase()}</Text>

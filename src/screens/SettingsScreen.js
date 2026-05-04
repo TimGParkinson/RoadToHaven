@@ -6,15 +6,14 @@ import { isMusicEnabled, setMusicEnabled, playTrack } from '../services/musicSer
 import { getPaceInfo, PACE_NAMES } from '../systems/travelSystem';
 import Button from '../components/Button';
 import sharedStyles, { colors, MONO } from '../styles';
-
-const PACE_KEY = '@rth_pace_preference';
+import { STORAGE_KEYS } from '../config/storageKeys';
 
 export default function SettingsScreen({ navigation }) {
   const [musicOn, setMusicOn] = useState(isMusicEnabled());
   const [pace,    setPace]    = useState('normal');
 
   useEffect(() => {
-    AsyncStorage.getItem(PACE_KEY).then(saved => {
+    AsyncStorage.getItem(STORAGE_KEYS.PACE_PREFERENCE).then(saved => {
       if (saved) setPace(saved);
     });
   }, []);
@@ -28,7 +27,7 @@ export default function SettingsScreen({ navigation }) {
 
   async function selectPace(p) {
     setPace(p);
-    await AsyncStorage.setItem(PACE_KEY, p);
+    await AsyncStorage.setItem(STORAGE_KEYS.PACE_PREFERENCE, p);
   }
 
   return (

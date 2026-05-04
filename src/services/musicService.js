@@ -1,7 +1,8 @@
 import { Audio } from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_KEYS } from '../config/storageKeys';
 
-const MUSIC_ENABLED_KEY = '@rth_music_enabled';
+const MUSIC_ENABLED_KEY = STORAGE_KEYS.MUSIC_ENABLED;
 
 const TRACKS = {
   travel:   require('../../assets/music/travel.mp3'),

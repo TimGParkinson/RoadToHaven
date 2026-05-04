@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { playTrack } from '../services/musicService';
-
-const INTRO_SEEN_KEY = '@rth_intro_seen';
+import { STORAGE_KEYS } from '../config/storageKeys';
 import {
   Pressable,
   ScrollView,
@@ -62,7 +61,7 @@ export default function IntroScreen({ navigation }) {
 
   useEffect(() => {
     playTrack('tense');
-    AsyncStorage.getItem(INTRO_SEEN_KEY).then(val => {
+    AsyncStorage.getItem(STORAGE_KEYS.INTRO_SEEN).then(val => {
       if (val === 'true') setHasSeenIntro(true);
     });
   }, []);
@@ -97,7 +96,7 @@ export default function IntroScreen({ navigation }) {
 
   // ── Tap handler ───────────────────────────
   function goToMenu() {
-    AsyncStorage.setItem(INTRO_SEEN_KEY, 'true');
+    AsyncStorage.setItem(STORAGE_KEYS.INTRO_SEEN, 'true');
     navigation.replace('MainMenu');
   }
 

@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useState, useEffect } from 'react';
+import { createContext, useContext, useReducer, useState, useEffect, useMemo } from 'react';
 import { saveGame, loadGame, deleteSave } from '../systems/saveSystem';
 
 // ─────────────────────────────────────────────
@@ -154,7 +154,7 @@ export function GameProvider({ children }) {
   const isDead          = state.food <= 0 || state.fuel <= 0 || state.survivors <= 0;
   const progressPercent = Math.min(100, Math.round((state.distance / TOTAL_DISTANCE) * 100));
 
-  const value = {
+  const value = useMemo(() => ({
     ...state,
     totalDistance: TOTAL_DISTANCE,
     hasWon,
@@ -168,7 +168,8 @@ export function GameProvider({ children }) {
     markRevived,
     recordRun,
     resetGame,
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [state, isLoading]);
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 }

@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_KEYS } from '../config/storageKeys';
+import { formatChanges } from '../utils/formatting';
 
 import { useGame }          from '../context/GameContext';
-
-const PACE_KEY = '@rth_pace_preference';
 import { travel, getPaceInfo } from '../systems/travelSystem';
 import { getRandomEvent }   from '../systems/eventSystem';
 import { useRewardedAd }    from '../services/adService';
@@ -19,10 +20,11 @@ import { colors, MONO }     from '../styles';
 // ─────────────────────────────────────────────
 // CONSTANTS
 // ─────────────────────────────────────────────
-const EVENT_CHANCE      = 0.65;
-const AD_COOLDOWN_MS    = 120_000; // 2 min cooldown between watches of the same type
-const MAX_ADS_PER_RUN   = 5;       // combined cap across fuel + food for the whole run
-const AD_SHOW_THRESHOLD = 30;      // only surface ad option when a resource drops below this
+const EVENT_CHANCE        = 0.65;    // 65% chance of an event after each travel action
+const AD_COOLDOWN_MS      = 120_000; // 2 min between watches of the same ad type
+const MAX_ADS_PER_RUN     = 5;       // combined fuel + food boost cap per run
+const AD_SHOW_THRESHOLD   = 30;      // only surface ad when a resource drops below this
+const MAX_SCAVENGE_STREAK = 2;       // max consecutive scavenges before forced travel
 
 const CAR_ART =
 `   _______
@@ -51,12 +53,6 @@ function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function deltaLabel(changes) {
-  return Object.entries(changes)
-    .map(([k, v]) => `${v > 0 ? '+' : ''}${v} ${k.toUpperCase()}`)
-    .join('   ');
-}
-
 function formatCooldown(ms) {
   const secs = Math.ceil(ms / 1000);
   const m    = Math.floor(secs / 60);
@@ -77,13 +73,17 @@ export default function TravelScreen({ navigation }) {
   const [pace,             setPace]             = useState('normal');
   const [paused,           setPaused]           = useState(false);
 
+  // Reset modal whenever this screen comes into focus — prevents flash on return from Settings
+  useFocusEffect(
+    useCallback(() => { setPaused(false); }, [])
+  );
+
   useEffect(() => {
-    AsyncStorage.getItem(PACE_KEY).then(saved => {
+    AsyncStorage.getItem(STORAGE_KEYS.PACE_PREFERENCE).then(saved => {
       if (saved) setPace(saved);
     });
   }, []);
 
-  const MAX_SCAVENGE_STREAK = 2;
   const scavengeLocked = scavengeStreak >= MAX_SCAVENGE_STREAK;
 
   // Ad cooldowns — timestamps (ms) when each cooldown expires
@@ -188,7 +188,7 @@ export default function TravelScreen({ navigation }) {
     setRestLocked(false);
 
     setLog(`> Traveled ${result.miles} mi.${result.warnings.length ? '  ! ' + result.warnings[0] : ''}`);
-    setDelta(deltaLabel(result.changes));
+    setDelta(formatChanges(result.changes));
 
     const nextDistance = game.distance + result.miles;
     if (nextDistance >= game.totalDistance) return;
@@ -216,7 +216,7 @@ export default function TravelScreen({ navigation }) {
     setScavengeStreak(s => s + 1);
 
     setLog(`> ${find.log}`);
-    setDelta(deltaLabel(allChanges));
+    setDelta(formatChanges(allChanges));
   }
 
   function handleRest() {
@@ -228,7 +228,7 @@ export default function TravelScreen({ navigation }) {
     setRestLocked(true);
 
     setLog('> Camp made. The group rests through the night.');
-    setDelta(deltaLabel({ morale: moraleGain, food: foodCost }));
+    setDelta(formatChanges({ morale: moraleGain, food: foodCost }));
   }
 
   // ── Derived display ──────────────────────────
@@ -442,16 +442,18 @@ const screen = StyleSheet.create({
   warningText: { fontFamily: MONO, fontSize: 11, color: colors.warning, letterSpacing: 1 },
 
   paceIndicator: {
-    backgroundColor: colors.panel,
-    borderWidth:     1,
-    borderColor:     colors.panelBorder,
-    borderRadius:    3,
-    paddingVertical: 8,
+    backgroundColor:  colors.panel,
+    borderWidth:      1,
+    borderColor:      colors.panelBorder,
+    borderRadius:     3,
+    borderLeftWidth:  3,
+    borderLeftColor:  colors.primary,
+    paddingVertical:  8,
     paddingHorizontal: 12,
-    marginBottom:    8,
-    flexDirection:   'row',
-    alignItems:      'center',
-    justifyContent:  'space-between',
+    marginBottom:     8,
+    flexDirection:    'row',
+    alignItems:       'center',
+    justifyContent:   'space-between',
   },
   paceIndicatorLabel: {
     fontFamily:    MONO,
@@ -461,7 +463,7 @@ const screen = StyleSheet.create({
   },
   paceIndicatorValue: {
     fontFamily:    MONO,
-    fontSize:      13,
+    fontSize:      15,
     fontWeight:    'bold',
     color:         colors.primary,
     letterSpacing: 1,

@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_KEYS } from '../config/storageKeys';
 
-const SAVE_KEY     = '@road_to_haven:save';
+const SAVE_KEY     = STORAGE_KEYS.GAME_SAVE;
 const SAVE_VERSION = 2; // bump this when INITIAL_STATE shape changes
 
 // ─────────────────────────────────────────────
@@ -36,7 +37,13 @@ export async function loadGame() {
   const raw = await AsyncStorage.getItem(SAVE_KEY);
   if (!raw) return null;
 
-  const envelope = JSON.parse(raw);
+  let envelope;
+  try {
+    envelope = JSON.parse(raw);
+  } catch {
+    await deleteSave();
+    return null;
+  }
 
   // Unknown version — discard rather than corrupt the game
   if (envelope.version !== SAVE_VERSION) {
@@ -59,8 +66,12 @@ export async function loadGame() {
 export async function hasSave() {
   const raw = await AsyncStorage.getItem(SAVE_KEY);
   if (!raw) return false;
-  const envelope = JSON.parse(raw);
-  return envelope.version === SAVE_VERSION;
+  try {
+    const envelope = JSON.parse(raw);
+    return envelope.version === SAVE_VERSION;
+  } catch {
+    return false;
+  }
 }
 
 // ─────────────────────────────────────────────
