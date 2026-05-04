@@ -73,16 +73,15 @@ export default function TravelScreen({ navigation }) {
   const [pace,             setPace]             = useState('normal');
   const [paused,           setPaused]           = useState(false);
 
-  // Reset modal whenever this screen comes into focus — prevents flash on return from Settings
+  // Reset modal and re-read pace whenever this screen comes into focus
   useFocusEffect(
-    useCallback(() => { setPaused(false); }, [])
+    useCallback(() => {
+      setPaused(false);
+      AsyncStorage.getItem(STORAGE_KEYS.PACE_PREFERENCE).then(saved => {
+        if (saved) setPace(saved);
+      });
+    }, [])
   );
-
-  useEffect(() => {
-    AsyncStorage.getItem(STORAGE_KEYS.PACE_PREFERENCE).then(saved => {
-      if (saved) setPace(saved);
-    });
-  }, []);
 
   const scavengeLocked = scavengeStreak >= MAX_SCAVENGE_STREAK;
 

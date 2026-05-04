@@ -468,6 +468,7 @@
   "id": "ration_dispute",
   "title": "Ration Dispute",
   "weight": 2,
+  "requiresMax": { "food": 100 },
   "text": "Tensions rise over dwindling food. Voices get louder.",
   "art": " (><)\n /||\\\n /  \\",
   "choices": [
@@ -1160,6 +1161,7 @@
   "id": "internal_theft",
   "title": "Internal Theft",
   "weight": 2,
+  "requires": { "survivors": 2 },
   "text": "Supplies are missing. Someone in your group is stealing.",
   "art": " (??) ",
   "choices": [
@@ -1368,6 +1370,7 @@
   "id": "last_stand",
   "title": "Last Stand",
   "weight": 1,
+  "requires": { "survivors": 2 },
   "text": "You're surrounded. No escape. Someone volunteers to hold them off.",
   "art": " (!!!) ",
   "choices": [
@@ -1422,6 +1425,7 @@
   "id": "disease_outbreak",
   "title": "Disease Outbreak",
   "weight": 2,
+  "requires": { "survivors": 3 },
   "text": "Someone woke up with a fever. By midday, two more are sick. Whatever it is, it's moving through the group fast.",
   "choices": [
     {
@@ -1579,7 +1583,6 @@
   "id": "child_survivor",
   "title": "Child Alone",
   "weight": 1,
-  "requires": { "provisions": 20 },
   "text": "A child — no more than eight — stands in the middle of the road, clutching a stuffed animal. No adults in sight. No tracks. No explanation.",
   "choices": [
     {
