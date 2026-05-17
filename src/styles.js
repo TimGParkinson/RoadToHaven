@@ -8,17 +8,17 @@ export const colors = {
   panel:       '#111915',  // slightly raised surface
   panelBorder: '#1E2B21',  // subtle border between panels
 
-  primary:     '#00FF9C',  // bright green — main interactive / highlight
-  secondary:   '#7CFFB2',  // softer green — secondary text / labels
+  primary:     '#00D985',  // green — main interactive / highlight (15% softer than original)
+  secondary:   '#69D997',  // softer green — secondary text / labels
   dim:         '#6AAF85',  // muted green — disabled / placeholders
 
   warning:     '#FFC857',  // amber — low resources, caution
   danger:      '#FF4C4C',  // red — death, critical state
-  success:     '#00FF9C',  // alias for primary (kept explicit for semantics)
+  success:     '#00D985',  // alias for primary (kept explicit for semantics)
 
-  textPrimary:   '#00FF9C',
-  textSecondary: '#7CFFB2',
-  textMuted:     '#99FBBF',
+  textPrimary:   '#00D985',
+  textSecondary: '#69D997',
+  textMuted:     '#82D5A2',
   textInverse:   '#0B0F0C', // used on filled buttons
 };
 

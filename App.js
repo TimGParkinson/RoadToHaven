@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler'; // must be first import
 import { useEffect, useState }    from 'react';
 import { View, StyleSheet } from 'react-native';
+import { StatusBar }              from 'expo-status-bar';
 import { SafeAreaProvider }       from 'react-native-safe-area-context';
 import { GameProvider, useGame }  from './src/context/GameContext';
 import { initialiseMobileAds }   from './src/services/adService';
@@ -48,6 +49,7 @@ function Root() {
 export default function App() {
   return (
     <SafeAreaProvider>
+      <StatusBar style="light" backgroundColor={colors.background} />
       <GameProvider>
         <Root />
       </GameProvider>

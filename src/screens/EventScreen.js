@@ -186,7 +186,7 @@ const screen = StyleSheet.create({
     borderTopWidth:    1,
     borderBottomWidth: 1,
     borderColor:       colors.panelBorder,
-    marginBottom:      4,
+    marginBottom:      8,
   },
 
   eventText: {
@@ -238,5 +238,5 @@ const screen = StyleSheet.create({
     fontWeight:    'bold',
     letterSpacing: 1,
   },
-  continueButton: { marginTop: 4 },
+  continueButton: { marginTop: 8 },
 });

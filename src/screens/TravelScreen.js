@@ -27,7 +27,7 @@ const AD_SHOW_THRESHOLD   = 30;      // only surface ad when a resource drops be
 const MAX_SCAVENGE_STREAK = 2;       // max consecutive scavenges before forced travel
 
 const CAR_ART =
-`   _______
+`      _______
  ____/|_||_| |__
 ( (_)______(_)_ )`;
 
@@ -411,17 +411,17 @@ const screen = StyleSheet.create({
   headerValue:   { fontFamily: MONO, fontSize: 18, fontWeight: 'bold', color: colors.primary },
   headerUnit:    { fontSize: 11, color: colors.textMuted, fontWeight: 'normal' },
 
-  progressTrack: { height: 4, backgroundColor: colors.panel, borderRadius: 2, overflow: 'hidden', marginBottom: 14 },
+  progressTrack: { height: 4, backgroundColor: colors.panel, borderRadius: 2, overflow: 'hidden', marginBottom: 8 },
   progressFill:  { height: '100%', backgroundColor: colors.primary, borderRadius: 2 },
 
-  resourceBar: { marginBottom: 6 },
+  resourceBar: { marginBottom: 8 },
 
   art: {
     paddingVertical:   16,
     borderTopWidth:    1,
     borderBottomWidth: 1,
     borderColor:       colors.panelBorder,
-    marginBottom:      6,
+    marginBottom:      8,
   },
 
   logBox: {
@@ -430,14 +430,14 @@ const screen = StyleSheet.create({
     borderColor:     colors.panelBorder,
     borderRadius:    3,
     padding:         12,
-    marginBottom:    6,
+    marginBottom:    8,
     minHeight:       56,
     justifyContent:  'center',
   },
   logText:   { fontFamily: MONO, fontSize: 12, color: colors.secondary, lineHeight: 18 },
   deltaText: { fontFamily: MONO, fontSize: 11, color: colors.textMuted, marginTop: 6, letterSpacing: 1 },
 
-  warningBox:  { borderLeftWidth: 3, borderLeftColor: colors.warning, paddingLeft: 10, paddingVertical: 6, marginBottom: 6, gap: 4 },
+  warningBox:  { borderLeftWidth: 3, borderLeftColor: colors.warning, paddingLeft: 10, paddingVertical: 6, marginBottom: 8, gap: 4 },
   warningText: { fontFamily: MONO, fontSize: 11, color: colors.warning, letterSpacing: 1 },
 
   paceIndicator: {

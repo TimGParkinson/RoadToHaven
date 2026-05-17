@@ -20,8 +20,7 @@
     "production": {
       "autoIncrement": true,
       "env": {
-        "DISABLE_ADS_STUB": "true",
-        "EXPO_PUBLIC_ADS_READY": "false"
+        "EXPO_PUBLIC_ADS_READY": "true"
       }
     }
   },

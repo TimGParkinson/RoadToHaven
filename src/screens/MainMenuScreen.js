@@ -10,14 +10,14 @@ import { isMusicEnabled, playTrack } from '../services/musicService';
 // ART
 // ─────────────────────────────────────────────
 const ROAD_ART =
-`       . H A V E N .
-            |
-           / \\
-          /   \\
-         / 2000\\
-        / MILES \\
-       /_________\\
-          [YOU]`;
+`. H A V E N .
+|
+/ \\
+/   \\
+/ 2000\\
+/ MILES \\
+/_________\\
+[YOU]`;
 
 // ─────────────────────────────────────────────
 // SCREEN
@@ -68,6 +68,7 @@ export default function MainMenuScreen({ navigation }) {
         color={colors.dim}
         size={12}
         style={screen.art}
+        align="center"
       />
 
       {/* ── Intro text ──────────────────────── */}

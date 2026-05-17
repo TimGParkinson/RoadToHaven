@@ -486,8 +486,8 @@
       "label": "Cut rations",
       "requires": null,
       "outcome": {
-        "text": "Food lasts longer, but morale suffers.",
-        "changes": { "food": 5, "morale": -15 }
+        "text": "Nobody's happy about it, but everyone understands. The portions get smaller.",
+        "changes": { "morale": -15 }
       }
     }
   ]
@@ -681,8 +681,8 @@
       "label": "Follow marked route",
       "requires": { "fuel": 8 },
       "outcome": {
-        "text": "You find a small cache along the way — food, scrap, and enough fuel to make the detour worth it.",
-        "changes": { "fuel": 7, "food": 15, "scrap": 10 }
+        "text": "You find a small cache along the way — food, scrap, and enough fuel to almost cover the detour.",
+        "changes": { "fuel": -1, "food": 15, "scrap": 10 }
       }
     },
     {
@@ -930,8 +930,8 @@
       "label": "Climb it",
       "requires": null,
       "outcome": {
-        "text": "You spot a safer route ahead.",
-        "changes": { "fuel": -5, "morale": 10 }
+        "text": "You spot a safer route ahead. The climb is exhausting but worth it.",
+        "changes": { "food": -5, "morale": 10 }
       }
     },
     {
@@ -939,8 +939,8 @@
       "label": "Salvage parts",
       "requires": null,
       "outcome": {
-        "text": "Valuable electronics.",
-        "changes": { "scrap": 15 }
+        "text": "Valuable electronics, and the generator at the base still has fuel in it.",
+        "changes": { "scrap": 15, "fuel": 8 }
       }
     }
   ]
@@ -954,11 +954,20 @@
   "choices": [
     {
       "id": "trade",
-      "label": "Trade and rest",
-      "requires": null,
+      "label": "Trade scrap for supplies",
+      "requires": { "scrap": 8 },
       "outcome": {
         "text": "You leave better than you arrived — food, medicine, fuel, and something like hope.",
-        "changes": { "food": 25, "medicine": 20, "morale": 20, "fuel": 15 }
+        "changes": { "scrap": -8, "food": 25, "medicine": 20, "fuel": 15, "morale": 15 }
+      }
+    },
+    {
+      "id": "rest",
+      "label": "Rest with them — no trade",
+      "requires": null,
+      "outcome": {
+        "text": "You share a fire and some conversation. No supplies change hands, but the group leaves in better spirits.",
+        "changes": { "morale": 20 }
       }
     }
   ]
@@ -1730,8 +1739,8 @@
       "label": "Approach carefully and disarm it",
       "requires": { "scrap": 5 },
       "outcome": {
-        "text": "You find the tripwire and disable it with a bit of wire. The crate holds food and medicine — someone's abandoned stash.",
-        "changes": { "scrap": -5, "food": 20, "medicine": 10, "morale": 15 }
+        "text": "You find the tripwire and disable it with a bit of wire. The crate holds food, medicine, and a sealed fuel canister — someone's abandoned stash.",
+        "changes": { "scrap": -5, "food": 20, "medicine": 10, "fuel": 8, "morale": 15 }
       }
     },
     {

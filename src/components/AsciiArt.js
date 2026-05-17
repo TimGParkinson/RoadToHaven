@@ -14,12 +14,12 @@ import { colors, MONO } from '../styles';
  * <AsciiArt art={"  / ^ \\\n ( o o )\n  > W <"} />
  * <AsciiArt art={event.art} color={colors.warning} />
  */
-export default function AsciiArt({ art, color = colors.primary, size = 13, style }) {
+export default function AsciiArt({ art, color = colors.primary, size = 13, style, align = 'left' }) {
   if (!art) return null;
 
   return (
     <View style={[styles.container, style]}>
-      <Text style={[styles.art, { color, fontSize: size, lineHeight: size * 1.55 }]}>
+      <Text style={[styles.art, { color, fontSize: size, lineHeight: size * 1.55, textAlign: align }]}>
         {art}
       </Text>
     </View>
@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
   },
   art: {
     fontFamily:         MONO,
-    textAlign:          'center',
     includeFontPadding: false,
   },
 });
