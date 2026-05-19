@@ -38,8 +38,8 @@ const SCAVENGE_FINDS = [
   { changes: { scrap: 8 },           log: 'Salvaged useful scrap from a collapsed structure.' },
   { changes: { food: 8, scrap: 4 },  log: 'Found provisions and some useful metal parts.' },
   { changes: { fuel: 6, scrap: 5 },  log: 'Scrounged fuel and scrap from a gutted truck.' },
-  { changes: {},                      log: 'Searched for an hour. Found nothing worth taking.' },
-  { changes: {},                      log: 'The area has already been picked clean.' },
+  { changes: {},                      log: 'Searched all day. Found nothing worth taking.' },
+  { changes: {},                      log: 'Spent the day searching. The area has already been picked clean.' },
 ];
 
 // ─────────────────────────────────────────────
