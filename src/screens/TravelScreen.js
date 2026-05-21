@@ -66,12 +66,10 @@ function formatCooldown(ms) {
 export default function TravelScreen({ navigation }) {
   const game = useGame();
 
-  const [log,              setLog]              = useState('> SYSTEMS NOMINAL. AWAITING ORDERS.');
-  const [delta,            setDelta]            = useState('');
-  const [scavengeStreak,   setScavengeStreak]   = useState(0);
-  const [restLocked,       setRestLocked]       = useState(false);
-  const [pace,             setPace]             = useState('normal');
-  const [paused,           setPaused]           = useState(false);
+  const [log,    setLog]    = useState('> SYSTEMS NOMINAL. AWAITING ORDERS.');
+  const [delta,  setDelta]  = useState('');
+  const [pace,   setPace]   = useState('normal');
+  const [paused, setPaused] = useState(false);
 
   // Reset modal and re-read pace whenever this screen comes into focus
   useFocusEffect(
@@ -83,7 +81,7 @@ export default function TravelScreen({ navigation }) {
     }, [])
   );
 
-  const scavengeLocked = scavengeStreak >= MAX_SCAVENGE_STREAK;
+  const scavengeLocked = game.scavengeStreak >= MAX_SCAVENGE_STREAK;
 
   // Ad cooldowns — timestamps (ms) when each cooldown expires
   const [fuelCooldownUntil, setFuelCooldownUntil] = useState(0);
@@ -183,8 +181,7 @@ export default function TravelScreen({ navigation }) {
 
     game.applyChanges(result.changes);
     game.advanceDay();
-    setScavengeStreak(0);
-    setRestLocked(false);
+    game.setDayFlags({ scavengeStreak: 0, restLocked: false });
 
     setLog(`> Traveled ${result.miles} mi.${result.warnings.length ? '  ! ' + result.warnings[0] : ''}`);
     setDelta(formatChanges(result.changes));
@@ -212,7 +209,7 @@ export default function TravelScreen({ navigation }) {
 
     game.applyChanges(allChanges);
     game.advanceDay();
-    setScavengeStreak(s => s + 1);
+    game.setDayFlags({ scavengeStreak: game.scavengeStreak + 1 });
 
     setLog(`> ${find.log}`);
     setDelta(formatChanges(allChanges));
@@ -224,7 +221,7 @@ export default function TravelScreen({ navigation }) {
 
     game.applyChanges({ morale: moraleGain, food: foodCost });
     game.advanceDay();
-    setRestLocked(true);
+    game.setDayFlags({ restLocked: true });
 
     setLog('> Camp made. The group rests through the night.');
     setDelta(formatChanges({ morale: moraleGain, food: foodCost }));
@@ -323,8 +320,8 @@ export default function TravelScreen({ navigation }) {
         {moraleTooLow && !scavengeLocked && (
           <Text style={screen.scavengeLockText}>! TOO DEMORALISED TO SCAVENGE — REST TO RECOVER</Text>
         )}
-        <Button label="Rest"     onPress={handleRest}     variant={restLocked ? 'dim' : 'secondary'} disabled={restLocked} />
-        {restLocked && (
+        <Button label="Rest"     onPress={handleRest}     variant={game.restLocked ? 'dim' : 'secondary'} disabled={game.restLocked} />
+        {game.restLocked && (
           <Text style={screen.scavengeLockText}>! ALREADY RESTED — TRAVEL TO CONTINUE</Text>
         )}
         {showStore && (

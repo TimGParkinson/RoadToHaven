@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from '../config/storageKeys';
 
 const SAVE_KEY     = STORAGE_KEYS.GAME_SAVE;
-const SAVE_VERSION = 2; // bump this when INITIAL_STATE shape changes
+const SAVE_VERSION = 3; // bump this when INITIAL_STATE shape changes
 
 // ─────────────────────────────────────────────
 // saveGame

@@ -5,16 +5,18 @@ import { saveGame, loadGame, deleteSave } from '../systems/saveSystem';
 // INITIAL STATE
 // ─────────────────────────────────────────────
 export const INITIAL_STATE = {
-  day:        1,
-  distance:   0,
-  food:       350,
-  fuel:       200,
-  medicine:   30,
-  scrap:      15,
-  morale:     75,
-  survivors:  4,
-  hasRevived: false, // true once the player uses the revive ad — locked for the run
-  bestRuns:   [],   // [{ day, distance, outcome }] max 5, sorted by distance desc
+  day:            1,
+  distance:       0,
+  food:           350,
+  fuel:           200,
+  medicine:       30,
+  scrap:          15,
+  morale:         75,
+  survivors:      4,
+  hasRevived:     false, // true once the player uses the revive ad — locked for the run
+  scavengeStreak: 0,     // consecutive scavenges this day — resets on travel
+  restLocked:     false, // true once rested this day — resets on travel
+  bestRuns:       [],    // [{ day, distance, outcome }] max 5, sorted by distance desc
 };
 
 export const TOTAL_DISTANCE = 2000;
@@ -32,6 +34,7 @@ const ACTIONS = {
   MODIFY_STAT:   'MODIFY_STAT',
   APPLY_CHANGES: 'APPLY_CHANGES',
   MARK_REVIVED:  'MARK_REVIVED',
+  SET_DAY_FLAGS: 'SET_DAY_FLAGS',
   SAVE_BEST_RUN: 'SAVE_BEST_RUN',
   RESET:         'RESET',
   LOAD_STATE:    'LOAD_STATE',
@@ -80,6 +83,9 @@ function gameReducer(state, action) {
     // Lock the revive — can only be used once per run
     case ACTIONS.MARK_REVIVED:
       return { ...state, hasRevived: true };
+
+    case ACTIONS.SET_DAY_FLAGS:
+      return { ...state, ...action.flags };
 
     case ACTIONS.SAVE_BEST_RUN: {
       const entry    = action.entry;
@@ -131,6 +137,7 @@ export function GameProvider({ children }) {
   function modifyStat(stat, amount)  { dispatch({ type: ACTIONS.MODIFY_STAT, stat, amount }); }
   function applyChanges(changes)     { dispatch({ type: ACTIONS.APPLY_CHANGES, changes }); }
   function markRevived()             { dispatch({ type: ACTIONS.MARK_REVIVED }); }
+  function setDayFlags(flags)        { dispatch({ type: ACTIONS.SET_DAY_FLAGS, flags }); }
 
   function recordRun(outcome) {
     dispatch({
@@ -166,6 +173,7 @@ export function GameProvider({ children }) {
     modifyStat,
     applyChanges,
     markRevived,
+    setDayFlags,
     recordRun,
     resetGame,
   // eslint-disable-next-line react-hooks/exhaustive-deps
